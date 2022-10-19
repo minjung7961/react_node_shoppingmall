@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {useDispatch} from 'react-redux';
 import {getCartItems} from '../../../_actions/user_actions.js';
+import UserCardBlock from './sections/UserCardBlock';
 
 function CartPage(props){
   const dispatch = useDispatch();
@@ -24,8 +25,13 @@ function CartPage(props){
   }, [props.user.userData])
 
   return(
-    <div>
-      CartPage
+    <div style={{ width: '85%', margin: '3rem auto'}}>
+      <h1>My Cart</h1>
+      <div>
+        {/* 너무 빠르게 product 값 잡으려 하니 안잡혀서 애러날때는 상위 프로퍼티도 같이 검사해서 넣자. */}
+        <UserCardBlock products={props.user.cartDetail && props.user.cartDetail.product}/>
+      </div>
+      
     </div>
   )
 }
