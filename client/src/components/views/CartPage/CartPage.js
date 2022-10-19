@@ -29,7 +29,7 @@ function CartPage(props){
       <h1>My Cart</h1>
       <div>
         {/* 너무 빠르게 product 값 잡으려 하니 안잡혀서 애러날때는 상위 프로퍼티도 같이 검사해서 넣자. */}
-        <UserCardBlock products={props.user.cartDetail && props.user.cartDetail.product}/>
+        <UserCardBlock products={props.user.cartDetail}/>
       </div>
       
     </div>
