@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useDispatch} from 'react-redux';
 import {getCartItems} from '../../../_actions/user_actions.js';
 import UserCardBlock from './sections/UserCardBlock';
 
 function CartPage(props){
   const dispatch = useDispatch();
+
+  const [Total, setTotal] = useState(0);
 
   useEffect(() => {
 
@@ -16,14 +18,22 @@ function CartPage(props){
         props.user.userData.cart.forEach(item => {
           cartItem.push(item.id)
         })
-
-        console.log(cartItem);
         dispatch(getCartItems(cartItem, props.user.userData.cart))
+          .then(response => {calculateTotal(response.payload)})
       }
     }
 
   }, [props.user.userData])
 
+  let calculateTotal = (cartDetail) =>{
+    let total = 0;
+
+    cartDetail.map(item => {
+      total += parseInt(item.price) * parseInt(item.quantity)
+    })
+
+    setTotal(total);
+  }
   return(
     <div style={{ width: '85%', margin: '3rem auto'}}>
       <h1>My Cart</h1>
@@ -31,7 +41,9 @@ function CartPage(props){
         {/* 너무 빠르게 product 값 잡으려 하니 안잡혀서 애러날때는 상위 프로퍼티도 같이 검사해서 넣자. */}
         <UserCardBlock products={props.user.cartDetail}/>
       </div>
-      
+      <div style={{ marginTop: '3rem'}}>
+        <h2>Total Amount : ${Total}</h2>
+      </div>
     </div>
   )
 }
