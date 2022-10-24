@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import {useDispatch} from 'react-redux';
 import {getCartItems,removeCartItem} from '../../../_actions/user_actions.js';
 import UserCardBlock from './sections/UserCardBlock';
+import { Empty } from 'antd';
+
 
 function CartPage(props){
   const dispatch = useDispatch();
 
   const [Total, setTotal] = useState(0);
+  const [ShowTotal, setShowTotal] = useState(false);
 
   useEffect(() => {
 
@@ -33,12 +36,15 @@ function CartPage(props){
     })
 
     setTotal(total);
+    setShowTotal(true)
   }
 
   let remoneFromCart = (productId) => {
       dispatch(removeCartItem(productId))
       .then(response => {
-
+        if(response.payload.productInfo.length <= 0){
+          setShowTotal(false)
+        }
       })
   }
 
@@ -49,9 +55,24 @@ function CartPage(props){
         {/* 너무 빠르게 product 값 잡으려 하니 안잡혀서 애러날때는 상위 프로퍼티도 같이 검사해서 넣자. */}
         <UserCardBlock products={props.user.cartDetail} removeItem={remoneFromCart}/>
       </div>
-      <div style={{ marginTop: '3rem'}}>
-        <h2>Total Amount : ${Total}</h2>
-      </div>
+
+      {ShowTotal ? 
+        <>
+          <div style={{ marginTop: '3rem'}}>
+            <h2>Total Amount : ${Total}</h2>
+          </div>
+          <button>결제하기</button>
+        </>
+        :
+        <>
+          <br />
+            <Empty description={false}/>
+          <div style={{ marginTop: '3rem'}}>
+            <h2>선택한 상품이 없습니다. </h2>
+          </div>
+        </>
+      }
+      
     </div>
   )
 }
