@@ -110,6 +110,10 @@ function LandingPage() {
     } 
 
     const handleFilters = (filters, category) => {
+
+        // process.env.NODE_ENV = "앙뇽";
+        console.log(process.env.NODE_ENV);
+
         const newFilters = {...Filters}
         newFilters[category] = filters
         

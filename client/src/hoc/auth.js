@@ -23,6 +23,9 @@ export default function (SpecificComponent, option, adminRoute = null) {
                     if (adminRoute && !response.payload.isAdmin) {
                         props.history.push('/')
                     }
+                    if(adminRoute){
+                        console.log("admin");
+                    }
                     //Logged in Status, but Try to go into log in page 
                     else {
                         if (option === false) {
