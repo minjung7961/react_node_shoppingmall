@@ -1,4 +1,4 @@
-export const Local = {
+const Local = {
   "host" : "15.164.94.182",
   "user" : "dbmgr",
   "password" : "devops",
@@ -6,3 +6,5 @@ export const Local = {
   "connectionLimit": 30 ,
   "multipleStatements" : true
 };
+
+module.exports = Local;

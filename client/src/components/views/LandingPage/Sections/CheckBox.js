@@ -27,12 +27,22 @@ function CheckBox(props){
         checked={Checked.indexOf(value._id) === -1 ? false : true}/>{value.name}
     </React.Fragment>
   ))
+
+  const renderPromiseList = async () => {
+    const filter = await props.list
+
+    filter.map((value,index) => {
+      console.log(value)
+    })
+  }
+  
   return (
     <div>
       <Collapse defaultActiveKey={['1']}>
         <Panel header="Continents" key="0">
           
         {renderCheckboxList()}
+        {/* {renderPromiseList()} */}
         
         </Panel>
         

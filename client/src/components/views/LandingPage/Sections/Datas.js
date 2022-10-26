@@ -1,3 +1,21 @@
+import Axios from 'axios';
+
+
+const getMaria = () => {
+
+  return new Promise((resolve, reject) => {
+
+      Axios.get('/api/data/cg4?cg3=0123020')
+      .then(response => {
+          if(response.data.data && response.data.success){
+              resolve(response.data.data);
+          }
+
+      })
+  })
+   
+};
+
 const continents = [
   {"_id" : 1,"name" : "Africa"},
   {"_id" : 2,"name" : "Europe"},
@@ -42,5 +60,5 @@ const price = [
 ]
 
 export{
-  continents,price
+  continents,price,getMaria
 }

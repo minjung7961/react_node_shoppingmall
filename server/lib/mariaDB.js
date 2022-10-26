@@ -1,6 +1,6 @@
 "use strict";
 const mysql = require('mysql');
-const {Local} = require('../config/aissgoDB.js');
+const Local = require('../config/aissgoDB.js');
 
 let pool = mysql.createPool(Local);
 

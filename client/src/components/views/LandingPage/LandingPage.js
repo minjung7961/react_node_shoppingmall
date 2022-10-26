@@ -7,7 +7,7 @@ import ImageSlider from '../../utils/ImageSlider';
 import {CheckBox} from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature';
-import {continents, price} from './Sections/Datas';
+import {continents, price, getMaria} from './Sections/Datas';
 
 function LandingPage() {
 
@@ -17,7 +17,8 @@ function LandingPage() {
     const [PostSize, setPostSize] = useState(0);
     const [Filters, setFilters] = useState({
         continents: [],
-        price: []
+        price: [],
+        alcolCG4: [],
     })
     const [SearchTerm, setSearchTerm] = useState("");
 
@@ -109,22 +110,8 @@ function LandingPage() {
         return array;
     } 
 
-    const handleFilters = (filters, category) => {
 
-        // process.env.NODE_ENV = "앙뇽";
-        console.log(process.env.NODE_ENV);
-
-        const newFilters = {...Filters}
-        newFilters[category] = filters
-        
-        if(category === 'price'){
-            let priceValues = handlePrice(filters)
-            newFilters[category] = priceValues
-        }
-
-        showFilterResults(newFilters)
-        setFilters(newFilters)
-    }
+    
 
     const updateSearchTerm = (newSearchTerm) => {
         
@@ -141,6 +128,23 @@ function LandingPage() {
 
     }
     
+    const handleFilters = async(filters, category) => {
+
+        const newFilters = {...Filters}
+        newFilters[category] = filters
+        
+        if(category === 'price'){
+            let priceValues = handlePrice(filters)
+            newFilters[category] = priceValues
+        }
+
+
+        
+
+        showFilterResults(newFilters)
+        setFilters(newFilters)
+    }
+
     return (
         <div style={{ width: '75% ', margin: '3rem auto'}}>
             <div style={{ textAlign: 'center' }}>
@@ -152,9 +156,12 @@ function LandingPage() {
                 <Col lg={12} xs={24}>
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
-                <Col lg={12} xs={24}>
+                {/* <Col lg={12} xs={24}>
+                    <CheckBox list={ getMaria() } handleFilters={filters => handleFilters(filters, "alcolCG4")} />
+                </Col> */}
+                {/* <Col lg={12} xs={24}>
                     <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
-                </Col>
+                </Col> */}
             </Row>
 
             {/* Search */}
