@@ -150,9 +150,9 @@ function LandingPage() {
 
             {/* Filter */}
             <Row gutter={[16,16]}>
-                {/* <Col lg={12} xs={24}>
+                <Col lg={12} xs={24}>
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
-                </Col> */}
+                </Col>
                 <Col lg={12} xs={24}>
                     <CheckBox list={ getMaria() } handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
