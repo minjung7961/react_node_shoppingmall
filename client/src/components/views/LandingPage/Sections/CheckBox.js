@@ -21,29 +21,36 @@ function CheckBox(props){
     props.handleFilters(newChecked)
   }
 
-  const renderCheckboxList = () => props.list && props.list.map((value,index) => (
-    <React.Fragment key={index}>
-      <Checkbox onChange = {() => handleToggle(value._id)} 
-        checked={Checked.indexOf(value._id) === -1 ? false : true}/>{value.name}
-    </React.Fragment>
-  ))
 
-  const renderPromiseList = async () => {
-    const filter = await props.list
-
-    filter.map((value,index) => {
-      console.log(value)
-    })
-  }
   
+  const renderCheckboxList = () => {
+
+    if(props.list){
+      if(props.list[0]){
+        return props.list.map((value,index) => (
+                <React.Fragment key={index}>
+                  <Checkbox onChange = {() => handleToggle(value._id)} 
+                    checked={Checked.indexOf(value._id) === -1 ? false : true}/>{value.name}
+                </React.Fragment>
+              ))
+      }else{
+           return ['a','b','c'].map((value,index) => (
+            <React.Fragment key={index}>
+              <Checkbox>{value}</Checkbox>
+            </React.Fragment>
+          ))
+        
+      }
+    }
+}
+
+console.log(renderCheckboxList())
+
   return (
     <div>
       <Collapse defaultActiveKey={['1']}>
-        <Panel header="Continents" key="0">
-          
-        {renderCheckboxList()}
-        {/* {renderPromiseList()} */}
-        
+        <Panel header="Continents" key="0">       
+          {renderCheckboxList()}
         </Panel>
         
       </Collapse>

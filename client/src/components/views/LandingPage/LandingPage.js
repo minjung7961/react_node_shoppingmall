@@ -7,7 +7,7 @@ import ImageSlider from '../../utils/ImageSlider';
 import {CheckBox} from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature';
-import {continents, price, getMaria} from './Sections/Datas';
+import {continents, price, getMaria,mariaPtoA} from './Sections/Datas';
 
 function LandingPage() {
 
@@ -138,9 +138,6 @@ function LandingPage() {
             newFilters[category] = priceValues
         }
 
-
-        
-
         showFilterResults(newFilters)
         setFilters(newFilters)
     }
@@ -153,15 +150,15 @@ function LandingPage() {
 
             {/* Filter */}
             <Row gutter={[16,16]}>
-                <Col lg={12} xs={24}>
+                {/* <Col lg={12} xs={24}>
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
+                </Col> */}
+                <Col lg={12} xs={24}>
+                    <CheckBox list={ getMaria() } handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
-                {/* <Col lg={12} xs={24}>
-                    <CheckBox list={ getMaria() } handleFilters={filters => handleFilters(filters, "alcolCG4")} />
-                </Col> */}
-                {/* <Col lg={12} xs={24}>
+                <Col lg={12} xs={24}>
                     <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
-                </Col> */}
+                </Col>
             </Row>
 
             {/* Search */}
