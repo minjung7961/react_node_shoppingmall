@@ -2,15 +2,15 @@ import React, { useEffect ,useState } from 'react'
 import axios from 'axios';
 import { Icon, Col, Card, Row, Button, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import ImageSlider from '../../utils/ImageSlider';
+import ImageSlider from '../../utils/ImageSlider'; //
 import {CheckBox} from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox'
-import SearchFeature from './Sections/SearchFeature';
+import SearchFeature from './Sections/SearchFeature'; //
 import {continents, price} from './Sections/Datas';
 
 function LandingPage() {
 
-    const [Product, setProducts] = useState([]);
+    const [Product, setProducts] = useState([]); //
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(1);
     const [PostSize, setPostSize] = useState(0);
@@ -29,7 +29,7 @@ function LandingPage() {
             limit: Limit
         }
         
-        getProducts(body)
+        getProducts(body)//
         getAlcolCategory()
 
     },[])
@@ -47,22 +47,22 @@ function LandingPage() {
         .catch(err => alert(err));
     }
 
-    const getProducts = (body) => {
+    const getProducts = (body) => { //
 
-        axios.post('/api/product/products', body)
-            .then(response => {
-                if(response.data.success){
+        axios.post('/api/product/products', body) //
+            .then(response => { //
+                if(response.data.success){ //
                     if(body.loadMore){
-                        setProducts([...Product, ...response.data.productInfo])
-                    }else{
-                        setProducts(response.data.productInfo)
-                    }
-                    setPostSize(response.data.postSize);
-                }else{
-                    alert("상품들을 가져오는데 실패 했습니다.")
-                }
-            })
-    }
+                        setProducts([...Product, ...response.data.productInfo]) //
+                    }else{ //
+                        setProducts(response.data.productInfo) //
+                    } //
+                    setPostSize(response.data.postSize); //
+                }else{ //
+                    alert("상품들을 가져오는데 실패 했습니다.") //
+                } //
+            }) //
+    } //
 
     const loadMoreHandler = () => {
         
@@ -81,22 +81,22 @@ function LandingPage() {
     }
     
 
-    const renderCards = Product.map((product, index) => {
+    const renderCards = Product.map((product, index) => { //
 
-        return <Col lg={6} md={8} xs={24} key={index}>
-            <Card
-                cover={ <a href={`/product/${product._id}`}>
-                        <ImageSlider images={product.images} /> 
-                    </a> 
+        return <Col lg={6} md={8} xs={24} key={index}> {/**/}
+            <Card //
+                cover={ <a href={`/product/${product._id}`}> 
+                        <ImageSlider images={product.images} />  
+                    </a> //
                 }
-            >
-                <Meta
-                    title={product.title}
-                    description={`$ ${product.price}`}
-                />
-            </Card>
-        </Col>
-    })
+            > {/**/}
+                <Meta 
+                    title={product.title} 
+                    description={`$ ${product.price}`} 
+                /> {/**/}
+            </Card> {/**/}
+        </Col> 
+    }) //
 
     const showFilterResults = (filters) => {
 
@@ -181,7 +181,7 @@ function LandingPage() {
             {/* Cards */}
 
             <Row gutter={[16,16]}>
-                {renderCards}
+                {renderCards} {/** */}
             </Row>
             
             <br />
