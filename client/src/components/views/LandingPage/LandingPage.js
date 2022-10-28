@@ -31,19 +31,19 @@ function LandingPage() {
         
         getProducts(body)
         getAlcolCategory()
-        
+
     },[])
 
     const getAlcolCategory = () => {
         axios.get('/api/data/cg4?cg3=0123020')
-        .then(response => {
-            if(response.data.success){
-                if(response.data.data && response.data.success){
-                    setAlcolFilter(response.data.data);
+            .then(response => {
+                if(response.data.success){
+                    if(response.data.data && response.data.success){
+                        setAlcolFilter(response.data.data);
+                    }
                 }
-            }
-                
-        })
+                    
+            })
         .catch(err => alert(err));
     }
 
@@ -158,7 +158,7 @@ function LandingPage() {
     return (
         <div style={{ width: '75% ', margin: '3rem auto'}}>
             <div style={{ textAlign: 'center' }}>
-                <h2>Let's Travel Anywhere <Icon type='rocket'></Icon></h2>
+                <h2>원하시는 제품을 선택해 주세요 <Icon type='rocket'></Icon></h2>
             </div>
 
             {/* Filter */}
