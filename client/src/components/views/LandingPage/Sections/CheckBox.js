@@ -6,7 +6,7 @@ const {Panel} = Collapse;
 function CheckBox(props){
 
   const [Checked, setChecked] = useState([]);
-  const [Filters,setFilters] = useState([]);
+
   const handleToggle = (value) => {
 
     const currentIndex = Checked.indexOf(value)
@@ -30,9 +30,6 @@ function CheckBox(props){
                   checked={Checked.indexOf(value._id) === -1 ? false : true}/>{value.name}
               </React.Fragment>
             ))
-    }
-    else{  
-      // prop.list 값 없을때
     }
 }
 

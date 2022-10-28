@@ -1,5 +1,5 @@
 import React, { useEffect ,useState } from 'react'
-import Axios from 'axios';
+import axios from 'axios';
 import { Icon, Col, Card, Row, Button, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider';
@@ -20,9 +20,9 @@ function LandingPage() {
         alcolCG4: [],
     })
     const [SearchTerm, setSearchTerm] = useState("");
+    const [alcolFilter, setAlcolFilter] = useState([]);
 
     useEffect(() => {
-
 
         let body = {
             skip: Skip,
@@ -30,12 +30,26 @@ function LandingPage() {
         }
         
         getProducts(body)
-
+        getAlcolCategory()
+        
     },[])
+
+    const getAlcolCategory = () => {
+        axios.get('/api/data/cg4?cg3=0123020')
+        .then(response => {
+            if(response.data.success){
+                if(response.data.data && response.data.success){
+                    setAlcolFilter(response.data.data);
+                }
+            }
+                
+        })
+        .catch(err => alert(err));
+    }
 
     const getProducts = (body) => {
 
-        Axios.post('/api/product/products', body)
+        axios.post('/api/product/products', body)
             .then(response => {
                 if(response.data.success){
                     if(body.loadMore){
@@ -153,7 +167,7 @@ function LandingPage() {
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <CheckBox list={ [1,2,3] } handleFilters={filters => handleFilters(filters, "continents")} />
+                    <CheckBox list={alcolFilter} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
                 <Col lg={12} xs={24}>
                     <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
