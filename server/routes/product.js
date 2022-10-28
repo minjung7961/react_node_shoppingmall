@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const { Product } = require('../models/product');
+
+const getConnection = require('../lib/mariaDB');
+const exec_sql = require('../lib/exec_sql');
+const {getAcolProduct} = require('./sql')
 //=================================
 //             Product
 //=================================
@@ -97,6 +101,26 @@ router.post('/products', (req, res) => {
   }
 
   
+});
+
+router.post('/alcolProducts', (req, res) => {
+  getConnection((conn) => {
+    (async() => {
+      try {
+        let sql = getAcolProduct;
+        let results = await exec_sql(conn, sql);
+        console.log(sql);
+        res.send({
+          success: true,
+          data: results
+        });
+      } catch(err){
+        console.log(err);
+      } finally{
+        conn.release();
+      }
+    })();
+  })
 });
 
 router.get('/products_by_id', (req, res) => {

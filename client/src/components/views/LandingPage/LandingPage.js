@@ -11,6 +11,7 @@ import {continents, price} from './Sections/Datas';
 function LandingPage() {
 
     const [Product, setProducts] = useState([]); //
+    const [ALcolProcucts, setAlcolProducts] = useState([]); 
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(1);
     const [PostSize, setPostSize] = useState(0);
@@ -21,6 +22,7 @@ function LandingPage() {
     })
     const [SearchTerm, setSearchTerm] = useState("");
     const [alcolFilter, setAlcolFilter] = useState([]);
+    const [Alcol,setAlcol] = useState([]);
 
     useEffect(() => {
 
@@ -30,16 +32,29 @@ function LandingPage() {
         }
         
         getProducts(body)//
-        getAlcolCategory()
+        getAlcolCategory() 
+        getAlcolProcuts({hi:'하이'})
 
     },[])
+
+    const getAlcolProcuts = (body) => {
+        axios.post('/api/product/alcolProducts',body)
+            .then(response => {
+                if(response.data.success){
+                    if(response.data.data && response.data.success){
+                        console.log(response.data.data)
+                    }
+                }
+            })
+        .catch(err => alert(err));
+    }
 
     const getAlcolCategory = () => {
         axios.get('/api/data/cg4?cg3=0123020')
             .then(response => {
                 if(response.data.success){
                     if(response.data.data && response.data.success){
-                        setAlcolFilter(response.data.data);
+                        setAlcol(response.data.data);
                     }
                 }
                     
