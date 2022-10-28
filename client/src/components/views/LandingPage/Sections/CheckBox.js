@@ -21,16 +21,8 @@ function CheckBox(props){
     setChecked(newChecked)
     props.handleFilters(newChecked)
   }
-
-
-  const fromPro = async() => {
-    let filters = await props.list
-    console.log(filters); 
-    filters.map((value,index) => (console.log(value)))
-  }
   
   const renderCheckboxList = () => {
-    fromPro()
     if(props.list[0]){
       return props.list.map((value,index) => (
               <React.Fragment key={index}>
@@ -40,11 +32,7 @@ function CheckBox(props){
             ))
     }
     else{  
-        return ['d','d'].map((value,index) => (
-        <React.Fragment key={index}>
-          <Checkbox>{value}</Checkbox>
-        </React.Fragment>
-      ))
+      // prop.list 값 없을때
     }
 }
 

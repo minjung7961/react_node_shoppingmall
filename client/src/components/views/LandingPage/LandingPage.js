@@ -1,5 +1,4 @@
 import React, { useEffect ,useState } from 'react'
-import { FaCode } from "react-icons/fa";
 import Axios from 'axios';
 import { Icon, Col, Card, Row, Button, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
@@ -7,7 +6,7 @@ import ImageSlider from '../../utils/ImageSlider';
 import {CheckBox} from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature';
-import {continents, price, getMaria,mariaPtoA} from './Sections/Datas';
+import {continents, price} from './Sections/Datas';
 
 function LandingPage() {
 
@@ -154,7 +153,7 @@ function LandingPage() {
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <CheckBox list={ getMaria() } handleFilters={filters => handleFilters(filters, "continents")} />
+                    <CheckBox list={ [1,2,3] } handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
                 <Col lg={12} xs={24}>
                     <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
