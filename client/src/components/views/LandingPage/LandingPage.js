@@ -2,7 +2,8 @@ import React, { useEffect ,useState } from 'react'
 import axios from 'axios';
 import { Icon, Col, Card, Row, Button, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import ImageSlider from '../../utils/ImageSlider'; //
+import ImageSlider from '../../utils/ImageSlider'; 
+import AlcoholImageSlider from '../../utils/AlcoholImageSlider'; 
 import {CheckBox} from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature'; //
@@ -11,7 +12,6 @@ import {continents, price} from './Sections/Datas';
 function LandingPage() {
 
     const [Product, setProducts] = useState([]); //
-    const [ALcolProcucts, setAlcolProducts] = useState([]); 
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(1);
     const [PostSize, setPostSize] = useState(0);
@@ -22,7 +22,7 @@ function LandingPage() {
     })
     const [SearchTerm, setSearchTerm] = useState("");
     const [alcolFilter, setAlcolFilter] = useState([]);
-    const [Alcol,setAlcol] = useState([]);
+    const [ALcolProcucts, setAlcolProducts] = useState([]); 
 
     useEffect(() => {
 
@@ -42,11 +42,13 @@ function LandingPage() {
             .then(response => {
                 if(response.data.success){
                     if(response.data.data && response.data.success){
+                        setAlcolProducts(response.data.data)
+                        console.log('getAlcolProducts : ')
                         console.log(response.data.data)
                     }
                 }
             })
-        .catch(err => alert(err));
+            .catch(err => alert(err));
     }
 
     const getAlcolCategory = () => {
@@ -54,7 +56,7 @@ function LandingPage() {
             .then(response => {
                 if(response.data.success){
                     if(response.data.data && response.data.success){
-                        setAlcol(response.data.data);
+                        setAlcolFilter(response.data.data);
                     }
                 }
                     
@@ -96,22 +98,39 @@ function LandingPage() {
     }
     
 
-    const renderCards = Product.map((product, index) => { //
+    const renderCards = Product.map((product, index) => { 
 
-        return <Col lg={6} md={8} xs={24} key={index}> {/**/}
-            <Card //
+        return <Col lg={6} md={8} xs={24} key={index}> 
+            <Card 
                 cover={ <a href={`/product/${product._id}`}> 
                         <ImageSlider images={product.images} />  
-                    </a> //
+                    </a> 
                 }
-            > {/**/}
+            > 
                 <Meta 
                     title={product.title} 
                     description={`$ ${product.price}`} 
-                /> {/**/}
-            </Card> {/**/}
+                /> 
+            </Card> 
         </Col> 
-    }) //
+    }) 
+
+    const renderALcolCards = ALcolProcucts.map((product, index) => {
+        console.log('imgsrc : ', product.imgsrc);
+        return <Col lg={6} md={8} xs={24} key={index}> 
+            <Card 
+                cover={ <a href={`/product/${product.productid}`}>
+                        <AlcoholImageSlider images={product.imgsrc} />  
+                    </a> 
+                }
+            > 
+                <Meta 
+                    title={product.productnm} 
+                    description={`$ ${product.regprice}`} 
+                /> 
+            </Card> 
+        </Col> 
+    }) 
 
     const showFilterResults = (filters) => {
 
@@ -196,7 +215,8 @@ function LandingPage() {
             {/* Cards */}
 
             <Row gutter={[16,16]}>
-                {renderCards} {/** */}
+                {renderALcolCards} 
+                {/* {renderCards} */}
             </Row>
             
             <br />

@@ -109,13 +109,11 @@ router.post('/alcolProducts', (req, res) => {
       try {
         let sql = getAcolProduct;
         let results = await exec_sql(conn, sql);
-        console.log(sql);
         res.send({
           success: true,
           data: results
         });
       } catch(err){
-        console.log(err);
       } finally{
         conn.release();
       }
