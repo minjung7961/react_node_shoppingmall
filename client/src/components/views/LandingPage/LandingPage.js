@@ -119,7 +119,7 @@ function LandingPage() {
         console.log('imgsrc : ', product.imgsrc);
         return <Col lg={6} md={8} xs={24} key={index}> 
             <Card 
-                cover={ <a href={`/product/${product.productid}`}>
+                cover={ <a href={`/product/alc/${product.productid}`}>
                         <AlcoholImageSlider images={product.imgsrc} />  
                     </a> 
                 }
