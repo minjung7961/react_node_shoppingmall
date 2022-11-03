@@ -31,7 +31,7 @@ function LandingPage() {
             limit: Limit
         }
         
-        getProducts(body)//
+        getProducts(body)
         getAlcolCategory() 
         getAlcolProcuts({hi:'하이'})
 

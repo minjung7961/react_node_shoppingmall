@@ -2,7 +2,9 @@ You can watch the tutorial for this app.
 
 https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
-# 상세페이지를 커스텀 보자 !! 
+# 상세페이지를 커스텀 보자 
+
+## 2.프론트 작업
 
 
 
@@ -111,12 +113,12 @@ import DetailProductPage from "./views/DetailProductPage/DetailProductPage.js";
 import DetailAlcoholeProductPage from "./views/DetailAlcoholeProductPage/DetailAlcoholeProductPage.js";
 
 <Route exact path="/product/:productId" component={Auth(DetailProductPage, true)} />
-{/*  라우터 추가할거임 */}
+<Route exact path="/product/alc/:productId" component={Auth(DetailAlcoholeProductPage, true)} />
 ```
 
 
 
-#### DetailProductPage.js -> DetailAlcoholeProductPage.js (새로복사할 예정)
+#### DetailAlcoholeProductPage.js (새로복사할 예정)
 
 ```react
 import axios from 'axios';
@@ -132,7 +134,7 @@ function DetailProductPage(props){
   const [Product, setProduct] = useState({});
   
   useEffect(() => {
-    axios.get(`/api/product/products_by_id?id=${productId}&type=single`) // url 변경
+    axios.get(`/api/product/alc_products_by_id?id=${productId}&type=single`) 
     .then(response => {
         setProduct(response.data[0])
     })
