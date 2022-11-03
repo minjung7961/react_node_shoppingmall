@@ -2,8 +2,12 @@ You can watch the tutorial for this app.
 
 https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
+<<<<<<< HEAD
 # 상세페이지를 커스텀 해보자 - 서버 작업
 
+=======
+# 상세페이지를 커스텀 보자 !! 
+>>>>>>> parent of 6990802 (상세페이지를 커스텀해 보자 - 2.프론트 작업)
 
 
 ## 변경 전
@@ -95,6 +99,7 @@ module.exports = router;
 
 
 
+<<<<<<< HEAD
 
 
 #### sql.js
@@ -111,6 +116,42 @@ const getAlcProductDetails =
   "WHERE category4cd LIKE '0123020%' \n"+
   " AND productid = '0123020100006' \n"+
   " \n";
+=======
+#### app.js
+
+```react
+import DetailProductPage from "./views/DetailProductPage/DetailProductPage.js";
+import DetailAlcoholeProductPage from "./views/DetailAlcoholeProductPage/DetailAlcoholeProductPage.js";
+
+<Route exact path="/product/:productId" component={Auth(DetailProductPage, true)} />
+{/*  라우터 추가할거임 */}
+```
+
+
+
+#### DetailProductPage.js -> DetailAlcoholeProductPage.js (새로복사할 예정)
+
+```react
+import axios from 'axios';
+import React, { useEffect,useState } from 'react';
+import ProductImage from './Sections/ProductImage';
+import ProductInfo from './Sections/ProductInfo';
+import {Row, Col} from 'antd'
+
+function DetailProductPage(props){
+
+  const productId = props.match.params.productId
+
+  const [Product, setProduct] = useState({});
+  
+  useEffect(() => {
+    axios.get(`/api/product/products_by_id?id=${productId}&type=single`) // url 변경
+    .then(response => {
+        setProduct(response.data[0])
+    })
+    .catch(err => alert(err))
+  }, [])
+>>>>>>> parent of 6990802 (상세페이지를 커스텀해 보자 - 2.프론트 작업)
   
 module.exports = {getAlcProductDetails};
 ```
