@@ -125,7 +125,7 @@ function LandingPage() {
                 }
             > 
                 <Meta 
-                    title={product.productnm} 
+                    title={product.productnm}  
                     description={`$ ${product.regprice}`} 
                 /> 
             </Card> 

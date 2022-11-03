@@ -13,7 +13,8 @@ function DetailProductPage(props){
   useEffect(() => {
     axios.get(`/api/product/alc_products_by_id?id=${productId}&type=single`)
     .then(response => {
-        setProduct(response.data[0])
+        setProduct(response.data.data[0]);
+        console.log(response.data.data[0]); 
     })
     .catch(err => alert(err))
   }, [])
@@ -21,15 +22,15 @@ function DetailProductPage(props){
   return(
     <div style={{ width:'100%', padding: '3rem 4rem' }}>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <h1>{Product.title}</h1>
+        <h1>{Product.productnm}</h1>
       </div>
       <br />
       <Row gutter={[16, 16]}>
         <Col lg={12} sm={24}>
-          <ProductImage detail={Product}/>
+          {/* <ProductImage detail={Product}/> */}
         </Col>
         <Col lg={12} sm={24}>
-          <ProductInfo detail={Product}/>
+          {/* <ProductInfo detail={Product}/> */}
         </Col>
       </Row>
       

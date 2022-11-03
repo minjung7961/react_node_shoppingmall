@@ -9,4 +9,16 @@ const getAcolProduct =
   "	statuscd \n"+
   "FROM biz_product_info \n"+
   "WHERE category4cd LIKE '0123020%' \n";
-module.exports = {getCG4,getAcolProduct};
+
+const getAcolDetails = 
+  "SELECT \n"+
+  "	a.productid, \n"+
+  "	a.productnm, \n"+
+  "	a.imgsrc, \n"+
+  "	a.regprice, \n"+
+  "	a.weight \n"+
+  "FROM biz_product_info a \n"+
+  "WHERE category4cd LIKE '0123020%' \n"+
+  " AND productid = '0123020100006' \n" ;
+  
+module.exports = {getCG4,getAcolProduct,getAcolDetails};
