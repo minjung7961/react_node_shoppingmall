@@ -5,7 +5,7 @@ const { Product } = require('../models/product');
 
 const getConnection = require('../lib/mariaDB');
 const exec_sql = require('../lib/exec_sql');
-const {getAcolProduct} = require('./sql')
+const {getAcolProduct,getAlcProductDetails} = require('./sql')
 //=================================
 //             Product
 //=================================
@@ -146,6 +146,23 @@ router.get('/products_by_id', (req, res) => {
 });
 
 
+router.get('/alc_products_by_id', (req, res) => {
+  getConnection((conn) => {
+    (async() => {
+      try {
+        let sql = getAlcProductDetails;
+        let results = await exec_sql(conn, sql);
+        res.send({
+          success: true,
+          data: results
+        });
+      } catch(err){
+      } finally{
+        conn.release();
+      }
+    })();
+  })
+});
 
 
 module.exports = router;
