@@ -149,10 +149,9 @@ router.get('/alc_products_by_id', (req, res) => {
   getConnection((conn) => {
     (async() => {
       try {
-        let prodictid = req.params
-        console.log(prodictid);
         let sql = getAcolDetails;
         let results = await exec_sql(conn, sql);
+        console.log(results)
         res.send({
           success: true,
           data: results
