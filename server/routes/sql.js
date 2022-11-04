@@ -19,6 +19,6 @@ const getAcolDetails =
   "	a.weight \n"+
   "FROM biz_product_info a \n"+
   "WHERE category4cd LIKE '0123020%' \n"+
-  " AND productid = '0123020100006' \n" ;
+  " AND productid = ? \n" ;
   
 module.exports = {getCG4,getAcolProduct,getAcolDetails};
