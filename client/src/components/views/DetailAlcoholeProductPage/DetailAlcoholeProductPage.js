@@ -14,7 +14,7 @@ function DetailProductPage(props){
     axios.get(`/api/product/alc_products_by_id?id=${productId}&type=single`)
     .then(response => {
         setProduct(response.data.data[0]);
-        console.log(response.data.data[0]); 
+        console.log(response.data.data[0]);
     })
     .catch(err => alert(err))
   }, [])
@@ -27,10 +27,10 @@ function DetailProductPage(props){
       <br />
       <Row gutter={[16, 16]}>
         <Col lg={12} sm={24}>
-          {/* <ProductImage detail={Product}/> */}
+          <ProductImage detail={Product}/>
         </Col>
         <Col lg={12} sm={24}>
-          {/* <ProductInfo detail={Product}/> */}
+          <ProductInfo detail={Product}/>
         </Col>
       </Row>
       

@@ -6,18 +6,15 @@ function ProductImage(props){
   const [Images, setImages] = useState([])
 
   useEffect(() => {
-
-    if(props.detail.images && props.detail.images.length > 0){
+    if(props.detail.imgsrc){
       let images = []
-
-      props.detail.images.map(item => {
         images.push({
-          original: `http://localhost:5000/${item}`,
-          thumbnail : `http://localhost:5000/${item}`
+          original: `https://cdn.aissgo1.com${props.detail.imgsrc}`,
+          thumbnail : `https://cdn.aissgo1.com${props.detail.imgsrc}`
         })
-      })
-
       setImages(images);
+    }else{
+      
     }
   }, [props.detail])
 

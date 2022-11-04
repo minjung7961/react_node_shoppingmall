@@ -2,7 +2,7 @@ You can watch the tutorial for this app.
 
 https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
-# 상세페이지를 커스텀 보자 - 3. 프론트 코드
+# 상세페이지를 커스텀 보자 - 4. 상세페이지 이미지
 
 ## 변경 전
 
