@@ -3,7 +3,7 @@ import {Collapse, Checkbox} from 'antd';
 
 const {Panel} = Collapse;
 
-function CheckBox(props){
+function AlcolCheckBox(props){
 
   const [Checked, setChecked] = useState([]);
 
@@ -34,7 +34,7 @@ function CheckBox(props){
   return (
     <div>
       <Collapse defaultActiveKey={['1']}>
-        <Panel header="대륙" key="0">       
+        <Panel header="술종류" key="0">       
           {renderCheckboxList()}
         </Panel>
         
@@ -43,4 +43,4 @@ function CheckBox(props){
   )
 }
 
-export {CheckBox}
+export {AlcolCheckBox}

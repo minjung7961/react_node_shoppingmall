@@ -5,13 +5,14 @@ import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider'; 
 import AlcoholImageSlider from '../../utils/AlcoholImageSlider'; 
 import {CheckBox} from './Sections/CheckBox';
+import {AlcolCheckBox} from './Sections/AlcolCheckBox';
 import Radiobox from './Sections/RadioBox'
-import SearchFeature from './Sections/SearchFeature'; //
+import SearchFeature from './Sections/SearchFeature'; 
 import {continents, price} from './Sections/Datas';
 
 function LandingPage() {
 
-    const [Product, setProducts] = useState([]); //
+    const [Product, setProducts] = useState([]); 
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(1);
     const [PostSize, setPostSize] = useState(0);
@@ -201,7 +202,7 @@ function LandingPage() {
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <CheckBox list={alcolFilter} handleFilters={filters => handleFilters(filters, "continents")} />
+                    <AlcolCheckBox list={alcolFilter} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col>
                 <Col lg={12} xs={24}>
                     <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
