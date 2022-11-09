@@ -21,6 +21,9 @@ function LandingPage() {
         price: [],
         alcolCG4: [],
     })
+    const [AlcolFilters, setAlcolFilters] = useState({
+        alcolCG4: [],
+    });
     const [SearchTerm, setSearchTerm] = useState("");
     const [alcolFilter, setAlcolFilter] = useState([]);
     const [ALcolProcucts, setAlcolProducts] = useState([]); 
@@ -29,12 +32,19 @@ function LandingPage() {
 
         let body = {
             skip: Skip,
-            limit: Limit
+            limit: Limit,
+            filters : Filters
+        }
+
+        let alcolBody = {
+            skip: Skip,
+            limit: Limit,
+            filters : alcolFilter
         }
         
-        getProducts(body)//
-        getAlcolCategory() 
-        getAlcolProcuts({hi:'하이'})
+        getProducts(body)
+        getAlcolCategory()
+        getAlcolProcuts(alcolBody)
 
     },[])
 
@@ -65,22 +75,22 @@ function LandingPage() {
         .catch(err => alert(err));
     }
 
-    const getProducts = (body) => { //
+    const getProducts = (body) => { 
 
-        axios.post('/api/product/products', body) //
-            .then(response => { //
-                if(response.data.success){ //
+        axios.post('/api/product/products', body) 
+            .then(response => { 
+                if(response.data.success){ 
                     if(body.loadMore){
-                        setProducts([...Product, ...response.data.productInfo]) //
-                    }else{ //
-                        setProducts(response.data.productInfo) //
-                    } //
-                    setPostSize(response.data.postSize); //
-                }else{ //
-                    alert("상품들을 가져오는데 실패 했습니다.") //
-                } //
-            }) //
-    } //
+                        setProducts([...Product, ...response.data.productInfo]) 
+                    }else{ 
+                        setProducts(response.data.productInfo) 
+                    } 
+                    setPostSize(response.data.postSize); 
+                }else{ 
+                    alert("상품들을 가져오는데 실패 했습니다.") 
+                } 
+            }) 
+    } 
 
     const loadMoreHandler = () => {
         
@@ -132,6 +142,7 @@ function LandingPage() {
             </Card> 
         </Col> 
     }) 
+    
 
     const showFilterResults = (filters) => {
 
@@ -190,6 +201,24 @@ function LandingPage() {
         setFilters(newFilters)
     }
 
+    const alcolShowFilterResults = (filters) => {
+
+        let body = {
+            filters : filters
+        }
+        getAlcolProcuts(body)
+    }
+    
+    const alcolHhandleFilters = async(alcolFilters, category) => {
+
+        const newFilters = {...AlcolFilters}
+        newFilters[category] = alcolFilters
+
+        alcolShowFilterResults(newFilters)
+        setAlcolFilters(newFilters)
+    }
+
+
     return (
         <div style={{ width: '75% ', margin: '3rem auto'}}>
             <div style={{ textAlign: 'center' }}>
@@ -198,11 +227,11 @@ function LandingPage() {
 
             {/* Filter */}
             <Row gutter={[16,16]}>
-                <Col lg={12} xs={24}>
+                {/* <Col lg={12} xs={24}>
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
-                </Col>
+                </Col> */}
                 <Col lg={12} xs={24}>
-                    <AlcolCheckBox list={alcolFilter} handleFilters={filters => handleFilters(filters, "continents")} />
+                    <AlcolCheckBox list={alcolFilter} handleFilters={alcolFilters => alcolHhandleFilters(alcolFilters, "alcolCG4")} />
                 </Col>
                 <Col lg={12} xs={24}>
                     <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
