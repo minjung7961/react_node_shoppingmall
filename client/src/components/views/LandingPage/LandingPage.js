@@ -8,6 +8,7 @@ import {CheckBox} from './Sections/CheckBox';
 import {AlcolCheckBox} from './Sections/AlcolCheckBox';
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature'; 
+import AlcolSearchFeature from './Sections/AlcolSearchFeature';
 import {continents, price} from './Sections/Datas';
 
 function LandingPage() {
@@ -25,6 +26,7 @@ function LandingPage() {
         alcolCG4: [],
     });
     const [SearchTerm, setSearchTerm] = useState("");
+    const [ALcolSearchTerm, setALcolSearchTerm] = useState("");
     const [alcolFilter, setAlcolFilter] = useState([]);
     const [ALcolProcucts, setAlcolProducts] = useState([]); 
 
@@ -186,6 +188,19 @@ function LandingPage() {
         setSearchTerm(newSearchTerm);
 
     }
+
+    const AlcolUpdateSearchTerm = (newSearchTerm) => {
+        
+
+        let body = {
+            filters : AlcolFilters,
+            searchTerm : newSearchTerm
+        }
+        getAlcolProcuts(body)
+        setALcolSearchTerm(newSearchTerm);
+
+    }
+
     
     const handleFilters = async(filters, category) => {
 
@@ -204,7 +219,8 @@ function LandingPage() {
     const alcolShowFilterResults = (filters) => {
 
         let body = {
-            filters : filters
+            filters : filters,
+            searchTerm : ALcolSearchTerm
         }
         getAlcolProcuts(body)
     }
@@ -240,7 +256,8 @@ function LandingPage() {
 
             {/* Search */}
             <div style={{display: 'flex', justifyContent:'flex-end', margin: '1rem auto'}}>
-                <SearchFeature refreshFuction = {updateSearchTerm}/>
+                {/* <SearchFeature refreshFuction = {updateSearchTerm}/> */}
+                <AlcolSearchFeature refreshFuction = {AlcolUpdateSearchTerm}/>
             </div>
             {/* Cards */}
 

@@ -104,43 +104,51 @@ router.post('/products', (req, res) => {
 });
 
 router.post('/alcolProducts', (req, res) => {
-  const filters = req.body.filters.alcolCG4
-  console.log(filters);
+  const filter = req.body.filters
+  const searchTerm = req.body.searchTerm
+  const alcolCG4 = filter.alcolCG4
+  console.log(filter);
+  console.log(searchTerm);
   getConnection((conn) => {
     (async() => {
       try {
 
         let sql = ''
-        if(!filters.length){
-          sql = getAcolProduct;
-          console.log('필터없다.')
-        }else{
-          console.log('필터있다.')
-          const upperSql = 
-            "SELECT \n"+
-            "	productid, \n"+
-            "	productnm, \n"+
-            "	category4cd, \n"+
-            "	imgsrc, \n"+
-            "	regprice, \n"+
-            "	statuscd \n"+
-            "FROM biz_product_info \n"+
-            "WHERE category4cd LIKE '0123020%' \n"+
-            " AND category4cd IN ( \n"
-          const lowerSql = 
-            " '' \n"+
-            ") \n"+
-            "AND statuscd = 'Y' \n"+
-            "";
+        const upperSql = 
+          "SELECT \n"+
+          "	productid, \n"+
+          "	productnm, \n"+
+          "	category4cd, \n"+
+          "	imgsrc, \n"+
+          "	regprice, \n"+
+          "	statuscd \n"+
+          "FROM biz_product_info \n"+
+          "WHERE category4cd LIKE '0123020%' \n"
 
+        const lowerSql = 
+          "AND statuscd = 'Y' \n"+
+          "";
+
+        let whereSql = ''
+
+        if(alcolCG4.length){
+          console.log('alcolCG4 필터있다.');
           sql = upperSql;
-            filters.forEach(element => {
-              sql += " '"+element+"', \n"
-              console.log(element);
-            });
-          sql += lowerSql;
+          whereSql += " AND category4cd IN ( \n"
+          alcolCG4.forEach(element => {
+            whereSql += " '"+element+"', \n"
+          });
+          whereSql += 
+            " '' \n"+
+            ") \n"
         }
 
+        if(searchTerm){
+          console.log('상품이름 있다.')
+          whereSql += "AND productnm LIKE '%"+searchTerm+"%'";
+          console.log(searchTerm)
+        }
+        sql = upperSql + whereSql  + lowerSql;
         console.log(sql);
 
         let results = await exec_sql(conn, sql);

@@ -3,7 +3,7 @@ import { Input } from 'antd';
 
 const {Search} = Input;
 
-function SearchFeature(props){
+function AlcolSearchFeature(props){
 
   const [SearchTerm, setSearchTerm] = useState("")
 
@@ -14,15 +14,15 @@ function SearchFeature(props){
   return(
     <div>
       <Search
-        placeholder="input search text"
-        onChange={searchHandler}
-        style={{
-          width: 200,
-        }}
-        value={SearchTerm}
-      />
+      placeholder="제품 이름"
+      onChange={searchHandler}
+      style={{
+        width: 200,
+      }}
+      value={SearchTerm}
+    />
     </div>
   )
 }
 
-export default SearchFeature
+export default AlcolSearchFeature
