@@ -39,7 +39,7 @@ function LandingPage() {
         let alcolBody = {
             skip: Skip,
             limit: Limit,
-            filters : alcolFilter
+            filters : AlcolFilters
         }
         
         getProducts(body)

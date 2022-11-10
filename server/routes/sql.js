@@ -10,17 +10,6 @@ const getAcolProduct =
   "	statuscd \n"+
   "FROM biz_product_info \n"+
   "WHERE category4cd LIKE '0123020%' \n"+
-  " AND category4cd IN ( \n"+
-  " '01230201', \n"+
-  // " '01230202', \n"+
-  // " '01230203', \n"+
-  // " '01230204', \n"+
-  // " '01230205', \n"+
-  // " '01230206', \n"+
-  // " '01230207', \n"+
-  // " '01230208', \n"+
-  " '' \n"+
-  ") \n"+
   "AND statuscd = 'Y' \n"+
   "";
 

@@ -109,38 +109,40 @@ router.post('/alcolProducts', (req, res) => {
   getConnection((conn) => {
     (async() => {
       try {
-        // let sql = getAcolProduct;
 
-        const sql = 
-          "SELECT \n"+
-          "	productid, \n"+
-          "	productnm, \n"+
-          "	category4cd, \n"+
-          "	imgsrc, \n"+
-          "	regprice, \n"+
-          "	statuscd \n"+
-          "FROM biz_product_info \n"+
-          "WHERE category4cd LIKE '0123020%' \n"+
-          " AND category4cd IN ( \n"+
-          " '01230201', \n"+
-          // " '01230202', \n"+
-          // " '01230203', \n"+
-          // " '01230204', \n"+
-          // " '01230205', \n"+
-          // " '01230206', \n"+
-          // " '01230207', \n"+
-          // " '01230208', \n"+
-          " '' \n"+
-          ") \n"+
-          "AND statuscd = 'Y' \n"+
-          "";
-        
-        if(filters){
-          console.log('필터있다')
+        let sql = ''
+        if(!filters.length){
+          sql = getAcolProduct;
+          console.log('필터없다.')
         }else{
-          console.log('필터없다')
+          console.log('필터있다.')
+          const upperSql = 
+            "SELECT \n"+
+            "	productid, \n"+
+            "	productnm, \n"+
+            "	category4cd, \n"+
+            "	imgsrc, \n"+
+            "	regprice, \n"+
+            "	statuscd \n"+
+            "FROM biz_product_info \n"+
+            "WHERE category4cd LIKE '0123020%' \n"+
+            " AND category4cd IN ( \n"
+          const lowerSql = 
+            " '' \n"+
+            ") \n"+
+            "AND statuscd = 'Y' \n"+
+            "";
+
+          sql = upperSql;
+            filters.forEach(element => {
+              sql += " '"+element+"', \n"
+              console.log(element);
+            });
+          sql += lowerSql;
         }
-        console.log(sql)
+
+        console.log(sql);
+
         let results = await exec_sql(conn, sql);
         res.send({
           success: true,
