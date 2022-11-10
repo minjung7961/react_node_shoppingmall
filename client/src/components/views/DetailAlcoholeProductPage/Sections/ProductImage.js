@@ -9,8 +9,7 @@ function ProductImage(props){
     if(props.detail.imgsrc){
       let images = []
         images.push({
-          original: `https://cdn.aissgo1.com${props.detail.imgsrc}`,
-          thumbnail : `https://cdn.aissgo1.com${props.detail.imgsrc}`
+          original: `https://cdn.aissgo1.com${props.detail.imgsrc}`
         })
       setImages(images);
     }else{

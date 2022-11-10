@@ -6,7 +6,7 @@ function ImageSlider( props ){
     <div>
       <Carousel autoplay>
           <div>
-            <img style={{ width: '100%', maxHeight: '150px' }} src={`https://cdn.aissgo1.com${props.images}`}/>
+            <center><img style={{ maxHeight: '150px' }} src={`https://cdn.aissgo1.com${props.images}`}/></center>
           </div>
       </Carousel>
     </div>
