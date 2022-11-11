@@ -107,6 +107,7 @@ router.post('/alcolProducts', (req, res) => {
   const filter = req.body.filters
   const searchTerm = req.body.searchTerm
   const alcolCG4 = filter.alcolCG4
+  const price = filter.price
   console.log(filter);
   console.log(searchTerm);
   getConnection((conn) => {
@@ -136,17 +137,26 @@ router.post('/alcolProducts', (req, res) => {
           sql = upperSql;
           whereSql += " AND category4cd IN ( \n"
           alcolCG4.forEach(element => {
-            whereSql += " '"+element+"', \n"
+            whereSql += "   '"+element+"', \n"
           });
           whereSql += 
-            " '' \n"+
-            ") \n"
+            "   '' \n"+
+            " ) \n"
         }
 
         if(searchTerm){
           console.log('상품이름 있다.')
           whereSql += "AND productnm LIKE '%"+searchTerm+"%'";
           console.log(searchTerm)
+        }
+
+        if(price.length){
+          whereSql += ' AND ( FALSE \n'
+          console.log('가격있다.')
+          price.forEach(([l,m],i) => {
+            whereSql += "   OR regprice BETWEEN "+l+" AND "+m+" \n"
+          })
+          whereSql += ' ) \n '
         }
         
         sql = upperSql + whereSql  + lowerSql;

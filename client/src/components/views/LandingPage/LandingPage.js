@@ -9,7 +9,7 @@ import {AlcolCheckBox} from './Sections/AlcolCheckBox';
 import Radiobox from './Sections/RadioBox'
 import SearchFeature from './Sections/SearchFeature'; 
 import AlcolSearchFeature from './Sections/AlcolSearchFeature';
-import {continents, price} from './Sections/Datas';
+import {continents, price, alcolPrice} from './Sections/Datas';
 
 function LandingPage() {
 
@@ -24,6 +24,7 @@ function LandingPage() {
     })
     const [AlcolFilters, setAlcolFilters] = useState({
         alcolCG4: [],
+        price: []
     });
     const [SearchTerm, setSearchTerm] = useState("");
     const [ALcolSearchTerm, setALcolSearchTerm] = useState("");
@@ -247,11 +248,14 @@ function LandingPage() {
                     <CheckBox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
                 </Col> */}
                 <Col lg={12} xs={24}>
-                    <AlcolCheckBox list={alcolFilter} handleFilters={alcolFilters => alcolHhandleFilters(alcolFilters, "alcolCG4")} />
+                    <AlcolCheckBox list={alcolFilter} header={"술종류"} handleFilters={alcolFilters => alcolHhandleFilters(alcolFilters, "alcolCG4")} />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
+                    <AlcolCheckBox list={alcolPrice} header={"가격"} handleFilters={alcolFilters => alcolHhandleFilters(alcolFilters, "price")} />
                 </Col>
+                {/* <Col lg={12} xs={24}>
+                    <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />     
+                </Col> */}
             </Row>
 
             {/* Search */}

@@ -34,7 +34,7 @@ function AlcolCheckBox(props){
   return (
     <div>
       <Collapse defaultActiveKey={['1']}>
-        <Panel header="술종류" key="0">       
+        <Panel header={props.header} key="0">       
           {renderCheckboxList()}
         </Panel>
         

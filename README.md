@@ -4,315 +4,157 @@ https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
 # 가격 선택 구현
 
-항목
+검색 항목
 
-	* 0~2만원
-	* 2~4만원
-	* 4~6만원
-	* 6~8만원
-	* 8만원이상
+* 0~2만원
+* 2~4만원
+* 4~6만원
+* 6~8만원
+* 8만원이상
 
-### 기존 이름 검색 에 영향을 주는 코드
+
+
+술종류 필터를 참고하여 가격 선택 필터도 구현하자.
+
+
+
+### 술종류 필터에 영향을 주는 코드
 
 * LandingPage.js
-* SearchFeature.js
-* product.js (라우터)
+* product.js
 
-#### LandingPage.js
+#### LandingPage
 
 ```react
 import React, { useEffect ,useState } from 'react'
 import axios from 'axios';
-import {CheckBox} from './Sections/CheckBox';
-import {continents, price} from './Sections/Datas';
+import {AlcolCheckBox} from './Sections/AlcolCheckBox';
 
 function LandingPage() {
     
-    const [Product, setProducts] = useState([]); 
-    const [Filters, setFilters] = useState({
-        continents: [],
-    })
-    const [SearchTerm, setSearchTerm] = useState("");
+    const [alcolFilter, setAlcolFilter] = useState([]);
+    const [ALcolProcucts, setAlcolProducts] = useState([]); 
+    const [AlcolFilters, setAlcolFilters] = useState({
+    	continents: [],
+        price: [],
+        alcolCG4: [],
+    });
     
     useEffect(() => {
         
- 		let body = {
-            filters : Filters 
+ 		let alcolBody = {
+            filters : AlcolFilters 
         }
         
-        getProducts(body)
+        getAlcolCategory()
+        getAlcolProcuts(alcolBody)
         
     },[])
     
-    const getProducts = (body) => { 
-
-        axios.post('/api/product/products', body) 
-            .then(response => { 
-            if(response.data.success){ 
-                setProducts(response.data.productInfo);
-            }else{ 
-                alert("상품들을 가져오는데 실패 했습니다.") 
-            } 
-        }) 
+    const getAlcolProcuts = (body) => {
+        axios.post('/api/product/alcolProducts',body)
+            .then(response => {
+                if(response.data.success){
+                    if(response.data.data && response.data.success){
+                        setAlcolProducts(response.data.data)
+                        console.log('getAlcolProducts : ')
+                        console.log(response.data.data)
+                    }
+                }
+            })
+            .catch(err => alert(err));
     }
     
-    const updateSearchTerm = (newSearchTerm) => {
-        
+    const alcolShowFilterResults = (filters) => {
 
         let body = {
-            skip : 0,
-            limit : Limit,
-            filters : Filters,
-            searchTerm : newSearchTerm
+            filters : filters
         }
-        getProducts(body)
-        setSkip(0)
-        setSearchTerm(newSearchTerm);
+        getAlcolProcuts(body)
+    }
+    
+    const alcolHhandleFilters = async(filters, category) => {
 
+        const newFilters = {...alcolFilters}
+        newFilters[category] = filters
+
+        alcolShowFilterResults(newFilters)
+        setAlcolFilters(newFilters)
     }
     
     return(
     
-        <AlcolSearchFeature refreshFuction = {updateSearchTerm}/>
+        <AlcolCheckBox list={alcolFilter} handleFilters={filters => alcolHandleFilters(alcolFilter, "alcolFilters")} />
         
-        {renderCards}
+        {renderALcolCards}
         
     )
         
 }
 ```
 
-#### SearchFeature
+#### AlcolCheckBox.js
 
 ```react
-import React, { useState } from 'react'
-import { Input } from 'antd';
+import React, {useState}from "react"
+import {Collapse, Checkbox} from 'antd';
 
-const {Search} = Input;
+const {Panel} = Collapse;
 
-function SearchFeature(props){
+function AlcolCheckBox(props){
 
-  const [SearchTerm, setSearchTerm] = useState("")
+  const [Checked, setChecked] = useState([]);
 
-  const searchHandler = (event) => {
-    setSearchTerm(event.currentTarget.value)
-    props.refreshFuction(event.currentTarget.value)
+  const handleToggle = (value) => {
+
+    const currentIndex = Checked.indexOf(value)
+    const newChecked = [...Checked]
+
+    if(currentIndex === -1){
+      newChecked.push(value)
+    }else{
+      newChecked.splice(currentIndex,1)
+    }
+    
+    setChecked(newChecked)
+    props.handleFilters(newChecked)
   }
-  return(
+  
+  const renderCheckboxList = () => {
+    return props.list.map((value,index) => (
+            <React.Fragment key={index}>
+              <Checkbox onChange = {() => handleToggle(value._id)} 
+                checked={Checked.indexOf(value._id) === -1 ? false : true}/>{value.name}
+            </React.Fragment>
+          ))
+}
+
+  return (
     <div>
-      <Search
-        placeholder="input search text"
-        onChange={searchHandler}
-        style={{
-          width: 200,
-        }}
-        value={SearchTerm}
-      />
+      <Collapse defaultActiveKey={['1']}>
+        <Panel header={props.header} key="0">       
+          {renderCheckboxList()}
+        </Panel>
+        
+      </Collapse>
     </div>
   )
 }
 
-export default SearchFeature
+export {AlcolCheckBox}
 ```
+
+
 
 #### product.js (라우터)
 
 ```js
 router.post('/products', (req, res) => {
 
-  let limit = req.body.limit ? parseInt(req.body.limit) :  20;
-  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
-  let term = req.body.searchTerm
-  let findArgs = {};
-
-  for(let key in req.body.filters){
-    if(req.body.filters[key].length > 0){
-
-      console.log('key : ', key);
-      if(key === "price"){
-        findArgs[key] = {
-          $gte: req.body.filters[key][0], // greater then equal 크거나 같고
-          $lte: req.body.filters[key][1]// 작거나 같은
-        }
-      }else{
-        findArgs[key] = req.body.filters[key];
-      }
-      console.log('filters[key] : ', findArgs[key])
-    }
-  }
-
+  const filter = req.body.filters
+  const alcolCG4 = filter.alcolCG4
   
-    // product collection에 들어 있는 모든 상품 정보를 가져오기
-    Product.find(findArgs)
-    .find({ $text: {$search: term}})
-    .populate("writer")
-    .skip(skip)
-    .limit(limit)
-    .exec((err, productInfo) => {
-      if(err) return res.status(400).json({seccess: false, err })
-      return res.status(200).json({ 
-        success: true, 
-        productInfo, 
-        postSize:productInfo.length 
-      })
-    })
-    
-  }else{
-    // product collection에 들어 있는 모든 상품 정보를 가져오기
-    Product.find(findArgs)
-    .populate("writer")
-    .skip(skip)
-    .limit(limit)
-    .exec((err, productInfo) => {
-      if(err) return res.status(400).json({seccess: false, err })
-      return res.status(200).json({ 
-        success: true, 
-        productInfo, 
-        postSize:productInfo.length 
-      })
-    })
-  }
-
-  
-});
-
-```
-
-#### 
-
-###  주류 이름 검색 기능
-
-* LandingPage.js
-* AlcolSearchFeature.js
-* product.js
-* sql.js
-
-#### sql.js
-
-```js
-const getAcolProduct = 
-  "SELECT \n"+
-  "	productid, \n"+
-  "	productnm, \n"+
-  "	category4cd, \n"+
-  "	imgsrc, \n"+
-  "	regprice, \n"+
-  "	statuscd \n"+
-  "FROM biz_product_info \n"+
-  "WHERE category4cd LIKE '0123020%' \n"+
-  "AND statuscd = 'Y' \n"+
-  "";
-
-module.exports = { getAcolProduct };
-```
-
-
-
-#### LandingPage.js
-
-```react
-import React, { useEffect ,useState } from 'react'
-import axios from 'axios';
-import {CheckBox} from './Sections/CheckBox';
-import {continents, price} from './Sections/Datas';
-
-function LandingPage() {
-    
-    const [Product, setProducts] = useState([]); 
-    const [Filters, setFilters] = useState({
-        continents: [],
-    })
-    const [ALcolSearchTerm, setALcolSearchTerm] = useState("");
-    
-    useEffect(() => {
-        
- 		let body = {
-            filters : Filters 
-        }
-        
-        getProducts(body)
-        
-    },[])
-    
-    const getProducts = (body) => { 
-
-        axios.post('/api/product/products', body) 
-            .then(response => { 
-            if(response.data.success){ 
-                setProducts(response.data.productInfo);
-            }else{ 
-                alert("상품들을 가져오는데 실패 했습니다.") 
-            } 
-        }) 
-    }
-    
-    const AlcolUpdateSearchTerm = (newSearchTerm) => {
-        
-
-        let body = {
-            filters : AlcolFilters,
-            searchTerm : newSearchTerm
-        }
-        getAlcolProcuts(body)
-        setALcolSearchTerm(newSearchTerm);
-
-    }
-    
-    return(
-    
-        <AlcolSearchFeature refreshFuction = {AlcolUpdateSearchTerm}/>
-        
-        {renderCards}
-        
-    )
-        
-}
-```
-
-#### SearchFeature
-
-```react
-import React, { useState } from 'react'
-import { Input } from 'antd';
-
-const {Search} = Input;
-
-function SearchFeature(props){
-
-  const [SearchTerm, setSearchTerm] = useState("")
-
-  const searchHandler = (event) => {
-    setSearchTerm(event.currentTarget.value)
-    props.refreshFuction(event.currentTarget.value)
-  }
-  return(
-    <div>
-      <Search
-        placeholder="input search text"
-        onChange={searchHandler}
-        style={{
-          width: 200,
-        }}
-        value={SearchTerm}
-      />
-    </div>
-  )
-}
-
-export default SearchFeature
-```
-
-#### product.js (라우터)
-
-```js
-const express = require('express');
-const router = express.Router();
-const {getAcolProduct} = require('./sql')
-
-router.post('/alcolProducts', (req, res) => {
-  const filters = req.body.filters.alcolCG4
-  console.log(filters);
-  getConnection((conn) => {
+   getConnection((conn) => {
     (async() => {
       try {
 
@@ -334,12 +176,18 @@ router.post('/alcolProducts', (req, res) => {
 
         let whereSql = ''
 
-         if(searchTerm){
-          console.log('상품이름 있다.')
-          whereSql += "AND productnm LIKE '%"+searchTerm+"%'";
-          console.log(searchTerm)
+        if(alcolCG4.length){
+          console.log('alcolCG4 필터있다.');
+          sql = upperSql;
+          whereSql += " AND category4cd IN ( \n"
+          alcolCG4.forEach(element => {
+            whereSql += " '"+element+"', \n"
+          });
+          whereSql += 
+            " '' \n"+
+            ") \n"
         }
-        
+
         sql = upperSql + whereSql  + lowerSql;
         console.log(sql);
 
@@ -354,7 +202,144 @@ router.post('/alcolProducts', (req, res) => {
       }
     })();
   })
+  
 });
+
+```
+
+
+
+###  주류 가격 검색 기능
+
+* LandingPage.js
+* product.js
+
+#### LandingPage
+
+```react
+import React, { useEffect ,useState } from 'react'
+import axios from 'axios';
+import {AlcolCheckBox} from './Sections/AlcolCheckBox';
+
+function LandingPage() {
+    
+    const [alcolFilter, setAlcolFilter] = useState([]);
+    const [ALcolProcucts, setAlcolProducts] = useState([]); 
+    const [AlcolFilters, setAlcolFilters] = useState({
+    	continents: [],
+        price: [],
+        alcolCG4: [],
+    });
+    
+    useEffect(() => {
+        
+ 		let alcolBody = {
+            filters : AlcolFilters 
+        }
+        
+        getAlcolCategory()
+        getAlcolProcuts(alcolBody)
+        
+    },[])
+    
+    const getAlcolProcuts = (body) => {
+        axios.post('/api/product/alcolProducts',body)
+            .then(response => {
+                if(response.data.success){
+                    if(response.data.data && response.data.success){
+                        setAlcolProducts(response.data.data)
+                        console.log('getAlcolProducts : ')
+                        console.log(response.data.data)
+                    }
+                }
+            })
+            .catch(err => alert(err));
+    }
+    
+    const alcolShowFilterResults = (filters) => {
+
+        let body = {
+            filters : filters
+        }
+        getAlcolProcuts(body)
+    }
+    
+    const alcolHhandleFilters = async(filters, category) => {
+
+        const newFilters = {...alcolFilters}
+        newFilters[category] = filters
+
+        alcolShowFilterResults(newFilters)
+        setAlcolFilters(newFilters)
+    }
+    
+    return(
+    
+        <AlcolPriceCheckBox list={alcolFilter} handleFilters={filters => alcolHandleFilters(alcolFilter, "alcolFilters")} />
+        
+        {renderALcolCards}
+        
+    )
+        
+}
+```
+
+#### product.js (라우터)
+
+```js
+router.post('/products', (req, res) => {
+
+  const filter = req.body.filters
+  const alcolCG4 = filter.alcolCG4
+  
+   getConnection((conn) => {
+    (async() => {
+      try {
+
+        let sql = ''
+        const upperSql = 
+          "SELECT \n"+
+          "	productid, \n"+
+          "	productnm, \n"+
+          "	category4cd, \n"+
+          "	imgsrc, \n"+
+          "	regprice, \n"+
+          "	statuscd \n"+
+          "FROM biz_product_info \n"+
+          "WHERE category4cd LIKE '0123020%' \n"
+
+        const lowerSql = 
+          "AND statuscd = 'Y' \n"+
+          "";
+
+        let whereSql = ''
+
+        if(price.length){
+          whereSql += ' AND ( FALSE \n'
+          console.log('가격있다.')
+          price.forEach(([l,m],i) => {
+            whereSql += "   OR regprice BETWEEN "+l+" AND "+m+" \n"
+          })
+          whereSql += ' ) \n '
+        }
+
+        sql = upperSql + whereSql  + lowerSql;
+        console.log(sql);
+
+        let results = await exec_sql(conn, sql);
+        res.send({
+          success: true,
+          data: results
+        });
+      } catch(err){
+      } finally{
+        conn.release();
+      }
+    })();
+  })
+  
+});
+
 ```
 
 

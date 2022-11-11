@@ -8,6 +8,30 @@ const continents = [
   {"_id" : 7,"name" : "Antarctica"}
 ]
 
+const alcolPrice = [
+
+  {
+    "_id" : [0,20000],
+    "name":"0~2만원"
+  },
+  {
+    "_id" : [20000,40000],
+    "name":"2~4만원"
+  },
+  {
+    "_id" : [40000,60000],
+    "name":"4~6만원"
+  },
+  {
+    "_id" : [60000,80000],
+    "name":"6~8만원"
+  },
+  {
+    "_id" : [80000,2147483647],
+    "name":"8만원이상"
+  },
+]
+
 const price = [
   {
     "_id" : 0,
@@ -42,5 +66,5 @@ const price = [
 ]
 
 export{
-  continents,price
+  continents,price,alcolPrice
 }
