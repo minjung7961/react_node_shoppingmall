@@ -2,9 +2,15 @@ You can watch the tutorial for this app.
 
 https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
-# 주류이름검색 기능을 구현해 보자
+# 가격 선택 구현
 
-기존 이름 검색 기능을 보고 새로운 주류 이름 검색 기능을 만들어 보자
+항목
+
+	* 0~2만원
+	* 2~4만원
+	* 4~6만원
+	* 6~8만원
+	* 8만원이상
 
 ### 기존 이름 검색 에 영향을 주는 코드
 

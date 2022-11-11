@@ -148,6 +148,7 @@ router.post('/alcolProducts', (req, res) => {
           whereSql += "AND productnm LIKE '%"+searchTerm+"%'";
           console.log(searchTerm)
         }
+        
         sql = upperSql + whereSql  + lowerSql;
         console.log(sql);
 
