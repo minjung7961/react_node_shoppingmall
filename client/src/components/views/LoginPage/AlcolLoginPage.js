@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 const { Title } = Typography;
 
-function LoginPage(props) {
+function AlcolLoginPage(props) {
   const dispatch = useDispatch();
   const rememberMeChecked = localStorage.getItem("rememberMe") ? true : false;
 
@@ -144,6 +144,6 @@ function LoginPage(props) {
   );
 };
 
-export default withRouter(LoginPage);
+export default withRouter(AlcolLoginPage);
 
 
