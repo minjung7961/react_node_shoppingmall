@@ -6,7 +6,8 @@ import {
     LOGOUT_USER,
     ADD_TO_CART, 
     GET_CART_ITEMS,
-    REMOVE_CART_ITEM
+    REMOVE_CART_ITEM,
+    ALCOL_LOGIN_USER
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -26,6 +27,16 @@ export function loginUser(dataToSubmit){
 
     return {
         type: LOGIN_USER,
+        payload: request
+    }
+}
+
+export function alcolLoginUser(dataToSubmit){
+    const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
+                .then(response => response.data);
+
+    return {
+        type: ALCOL_LOGIN_USER,
         payload: request
     }
 }

@@ -17,7 +17,7 @@ const getAcolDetails =
   "SELECT \n"+
   "	a.productid, \n"+
   "	a.productnm, \n"+
-  "	a.imgsrc, \n"+
+  "	a.detImgSrc imgsrc, \n"+
   "	a.regprice, \n"+
   "	a.weight \n"+
   "FROM biz_product_info a \n"+

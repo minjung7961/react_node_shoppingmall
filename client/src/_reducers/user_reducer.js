@@ -3,9 +3,10 @@ import {
     REGISTER_USER,
     AUTH_USER,
     LOGOUT_USER,
-    ADD_TO_CART,//
+    ADD_TO_CART,
     GET_CART_ITEMS,
-    REMOVE_CART_ITEM
+    REMOVE_CART_ITEM,
+    ALCOL_LOGIN_USER
 } from '../_actions/types';
  
 
@@ -15,17 +16,19 @@ export default function(state={},action){
             return {...state, register: action.payload }
         case LOGIN_USER:
             return { ...state, loginSucces: action.payload }
+        case ALCOL_LOGIN_USER:
+            return { ...state, loginSucces: action.payload }
         case AUTH_USER:
             return {...state, userData: action.payload }
         case LOGOUT_USER:
             return {...state }
-        case ADD_TO_CART://
-            return {...state,//
-                userData: {//
-                    ...state.userData,//
-                    cart: action.payload//
-                }//
-            }//
+        case ADD_TO_CART:
+            return {...state,
+                userData: {
+                    ...state.userData,
+                    cart: action.payload
+                }
+            }
         case GET_CART_ITEMS:
             return {...state, cartDetail: action.payload }
         case REMOVE_CART_ITEM:
