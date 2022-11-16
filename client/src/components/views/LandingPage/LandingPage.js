@@ -266,8 +266,8 @@ function LandingPage() {
             {/* Cards */}
 
             <Row gutter={[16,16]}>
-                {/* {renderALcolCards}  */}
-                {renderCards}
+                {renderALcolCards} 
+                {/* {renderCards} */}
             </Row>
             
             <br />
