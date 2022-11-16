@@ -8,7 +8,6 @@ https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
 *  auth 에서 사용자 정보를 가져옴을 알게됨
 * login 에서는 그냥 id만 가져옴...
-* 이를 이용해 어케 mariadb랑 연동할지 연구...ㅠㅠ
 
 #### App.js
 
@@ -426,5 +425,5 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
 ## 추후에 할것
 
-* auth 에서 정보일단 가져오기
+* auth 에서 정보 일단 가져오기
 

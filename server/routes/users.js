@@ -30,7 +30,8 @@ router.get("/alcolAuth", alcolAuth, (req, res) => {
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
-        cart: req.user.cart
+        cart: req.user.cart,
+        alcolId : req.alcolUserId
     });
 });
 
