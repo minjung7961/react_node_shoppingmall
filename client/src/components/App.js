@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/auth";
+import alcolAuth from"../hoc/alcolAuth.js"
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
@@ -25,7 +26,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Auth(LandingPage, true)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/alcolLogin" component={Auth(AlcolLoginPage, false)} />
+          <Route exact path="/alcolLogin" component={alcolAuth(AlcolLoginPage,false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
           <Route exact path="/product/:productId" component={Auth(DetailProductPage, true)} /> 

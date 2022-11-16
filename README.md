@@ -4,7 +4,7 @@ https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
 # 로그인구현 
 
-## 조사
+## auth  조사
 
 #### App.js
 
@@ -36,85 +36,183 @@ export default App;
 
 
 
-#### loginPage.js
+#### hoc/auth.js
 
 ```js
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../../_actions/user_actions";
+import React, { useEffect } from 'react';
+import { auth } from '../_actions/user_actions';
+import { useSelector, useDispatch } from "react-redux";
 
-const dispatch = useDispatch();
+export default function (SpecificComponent, option, adminRoute = null) {
+    function AuthenticationCheck(props) {
 
-function LoginPage(props) {
-	dispatch(loginUser(dataToSubmit)).then();
+        let user = useSelector(state => state.user);
+        const dispatch = useDispatch();
+
+        useEffect(() => {
+            //To know my current status, send Auth request 
+            dispatch(auth()).then(response => {
+            })
+
+        }, [])
+
+        return (
+            <SpecificComponent {...props} user={user} />
+        )
+    }
+    return AuthenticationCheck
 }
-```
-
-#### user.js
-
-```js
-router.post("/login",(req,res) => {})
 ```
 
 #### user_actions.js
 
 ```js
 import axios from 'axios';
-import {LOGIN_USER} from './types';
+import {AUTH_USER} from './types';
 import {USER_SERVER} from '../components/Config.js';
 
-export function loginUser(dataToSubmit){
-    const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
-                .then(response => response.data);
-
-    return {
-        type: LOGIN_USER,
-        payload: request
-    }
+export function auth(){
+    const request = axios.get(`${USER_SERVER}/auth`)
+    
+     ....
+     
 }
 ```
 
 #### type
 
 ```js
-export const LOGIN_USER = 'login_user';
+export const LOGIN_USER = 'auth_user';
+```
+
+#### user.js
+
+```js
+const express = require('express');
+const router = express.Router();
+const { auth } = require("../middleware/auth");
+
+router.get("/auth", auth, (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image,
+        cart: req.user.cart,
+        history: req.user.history
+    });
+});
+```
+
+#### midleware/auth.js
+
+```js
+const { User } = require('../models/User');
+
+let auth = (req, res, next) => {
+  let token = req.cookies.w_auth;
+
+  User.findByToken(token, (err, user) => {
+    if (err) throw err;
+    if (!user)
+      return res.json({
+        isAuth: false,
+        error: true
+      });
+
+    req.token = token;
+    req.user = user;
+    next();
+  });
+};
+
+module.exports = { auth };
+```
+
+#### user_actions.js
+
+```js
+import axios from 'axios';
+import {AUTH_USER} from './types';
+import {USER_SERVER} from '../components/Config.js';
+
+export function auth(){
+    const request = axios.get(`${USER_SERVER}/auth`)
+    .then(response => response.data);
+
+    return {
+        type: AUTH_USER,
+        payload: request
+    }
+}
 ```
 
 #### user_reducer.js
 
 ```js
-import {LOGIN_USER} from './types';
+import {AUTH_USER} from './types';
 
 export default function(state={},action){
     switch(action.type){
-    	case LOGIN_USER:
+    	case AUTH_USER:
             return { ...state, loginSucces: action.payload }
     }
 }
 ```
 
-#### loginPage.js
+#### hoc/auth.js
 
 ```js
-dispatch(loginUser(dataToSubmit))
-.then(response => {
-    if (response.payload.loginSuccess) {
-        window.localStorage.setItem('userId', response.payload.userId);
-        if (rememberMe === true) {
-            window.localStorage.setItem('rememberMe', values.id);
-        } else {
-            localStorage.removeItem('rememberMe');
-        }
-        props.history.push("/");
-    } else {
-        setFormErrorMessage('Check out your Account or Password again')
+import React, { useEffect } from 'react';
+import { auth } from '../_actions/user_actions';
+import { useSelector, useDispatch } from "react-redux";
+
+export default function (SpecificComponent, option, adminRoute = null) {
+    function AuthenticationCheck(props) {
+
+        let user = useSelector(state => state.user);
+        const dispatch = useDispatch();
+
+        useEffect(() => {
+            //To know my current status, send Auth request 
+            dispatch(auth()).then(response => {
+                ////
+                //Not Loggined in Status 
+                if (!response.payload.isAuth) {
+                    if (option) {
+                        props.history.push('/login')
+                    }
+                    //Loggined in Status 
+                } else {
+                    //supposed to be Admin page, but not admin person wants to go inside
+                    if (adminRoute && !response.payload.isAdmin) {
+                        props.history.push('/')
+                    }
+                    if(adminRoute){
+                        console.log("admin");
+                    }
+                    //Logged in Status, but Try to go into log in page 
+                    else {
+                        if (option === false) {
+                            props.history.push('/')
+                        }
+                    }
+                }
+                ////
+            })
+
+        }, [])
+
+        return (
+            <SpecificComponent {...props} user={user} />
+        )
     }
-})
-    .catch(err => {
-    setFormErrorMessage('Check out your Account or Password again')
-    setTimeout(() => {
-        setFormErrorMessage("")
-    }, 3000);
-});
+    return AuthenticationCheck
+}
 ```
 
 ## 필요부분 복사
@@ -124,7 +222,7 @@ dispatch(loginUser(dataToSubmit))
 ```js
 import React, { Suspense } from 'react';
 import { Route, Switch } from "react-router-dom";
-import Auth from "../hoc/auth";
+import alcolAuth from "../hoc/alcolAuth";
 import AlcolLoginPage from "./views/LoginPage/AlcolLoginPage.js";
 
 //null   Anyone Can go inside
@@ -136,7 +234,7 @@ function App() {
     <Suspense fallback={(<div>Loading...</div>)}>
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
-          <Route exact path="/alcolLogin" component={Auth(AlcolLoginPage, false)} />
+          <Route exact path="/login" component={alcolAuth(AlcolLoginPage, false)} />
         </Switch>
       </div>
     </Suspense>
@@ -149,64 +247,116 @@ export default App;
 
 
 
-#### AlcolLoginPage
+#### hoc/auth.js
 
 ```js
-// LoginPage 전체 복사
-import { useDispatch } from "react-redux";
-import { alcolLoginUser } from "../../../_actions/user_actions";
+import React, { useEffect } from 'react';
+import { auth } from '../_actions/user_actions';
+import { useSelector, useDispatch } from "react-redux";
 
-const dispatch = useDispatch();
+export default function (SpecificComponent, option, adminRoute = null) {
+    function AuthenticationCheck(props) {
 
-function AlcolLoginPage(props) {
-	dispatch(alcolLoginUser(dataToSubmit)).then();
+        let user = useSelector(state => state.user);
+        const dispatch = useDispatch();
+
+        useEffect(() => {
+            //To know my current status, send Auth request 
+            dispatch(auth()).then(response => {
+            })
+
+        }, [])
+
+        return (
+            <SpecificComponent {...props} user={user} />
+        )
+    }
+    return AuthenticationCheck
 }
-
-export default withRouter(AlcolLoginPage);
 ```
 
 #### user_actions.js
 
 ```js
 import axios from 'axios';
-import {ALCOL_LOGIN_USER} from './types';
+import {AUTH_USER} from './types';
 import {USER_SERVER} from '../components/Config.js';
 
-export function alcolLoginUser(dataToSubmit){
-    const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
-                .then( .... );
-
-    return {
-        ......
-    }
+export function alcolAuth(){
+    const request = axios.get(`${USER_SERVER}/alcolAuth`)
+    
+     ....
+     
 }
 ```
 
 #### type
 
 ```js
-export const ALCOL_LOGIN_USER = 'alcol_login_user';
+export const ALCOL_AUTH_USER = 'alcol_auth_user';
 ```
 
 #### user.js
 
 ```js
-router.post("/alcolLogin", (req, res) => {
+const express = require('express');
+const router = express.Router();
+const { alcolAuth } = require("../middleware/alcolAuth");
+
+router.get("/alcolAuth", alcolAuth, (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image,
+        cart: req.user.cart,
+        history: req.user.history
+    });
+});
+```
+
+#### midleware/alcolAuth.js
+
+```js
+const { User } = require('../models/User');
+
+let alcolAuth = (req, res, next) => {
+  let token = req.cookies.w_auth;
+
+  User.findByToken(token, (err, user) => {
+    if (err) throw err;
+    if (!user)
+      return res.json({
+        isAuth: false,
+        error: true
+      });
+
+    req.token = token;
+    req.user = user;
+    next();
+  });
+};
+
+module.exports = { alcolAuth };
 ```
 
 #### user_actions.js
 
 ```js
 import axios from 'axios';
-import {ALCOL_LOGIN_USER} from './types';
+import {AUTH_USER} from './types';
 import {USER_SERVER} from '../components/Config.js';
 
-export function alcolLoginUser(dataToSubmit){
-    const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
-                .then(response => response.data);
+export function auth(){
+    const request = axios.get(`${USER_SERVER}/auth`)
+    .then(response => response.data);
 
     return {
-        type: ALCOL_LOGIN_USER,
+        type: AUTH_USER,
         payload: request
     }
 }
@@ -215,37 +365,68 @@ export function alcolLoginUser(dataToSubmit){
 #### user_reducer.js
 
 ```js
-import {ALCOL_LOGIN_USER} from './types';
+import {AUTH_USER} from './types';
 
 export default function(state={},action){
     switch(action.type){
-    	case ALCOL_LOGIN_USER:
+    	case AUTH_USER:
             return { ...state, loginSucces: action.payload }
     }
 }
 ```
 
-#### loginPage.js
+#### hoc/auth.js
 
 ```js
-dispatch(AlcolLoginPage(dataToSubmit))
-.then(response => {
-    if (response.payload.loginSuccess) {
-        window.localStorage.setItem('userId', response.payload.userId);
-        if (rememberMe === true) {
-            window.localStorage.setItem('rememberMe', values.id);
-        } else {
-            localStorage.removeItem('rememberMe');
-        }
-        props.history.push("/");
-    } else {
-        setFormErrorMessage('Check out your Account or Password again')
+import React, { useEffect } from 'react';
+import { auth } from '../_actions/user_actions';
+import { useSelector, useDispatch } from "react-redux";
+
+export default function (SpecificComponent, option, adminRoute = null) {
+    function AuthenticationCheck(props) {
+
+        let user = useSelector(state => state.user);
+        const dispatch = useDispatch();
+
+        useEffect(() => {
+            //To know my current status, send Auth request 
+            dispatch(auth()).then(response => {
+                ////
+                //Not Loggined in Status 
+                if (!response.payload.isAuth) {
+                    if (option) {
+                        props.history.push('/login')
+                    }
+                    //Loggined in Status 
+                } else {
+                    //supposed to be Admin page, but not admin person wants to go inside
+                    if (adminRoute && !response.payload.isAdmin) {
+                        props.history.push('/')
+                    }
+                    if(adminRoute){
+                        console.log("admin");
+                    }
+                    //Logged in Status, but Try to go into log in page 
+                    else {
+                        if (option === false) {
+                            props.history.push('/')
+                        }
+                    }
+                }
+                ////
+            })
+
+        }, [])
+
+        return (
+            <SpecificComponent {...props} user={user} />
+        )
     }
-})
-    .catch(err => {
-    setFormErrorMessage('Check out your Account or Password again')
-    setTimeout(() => {
-        setFormErrorMessage("")
-    }, 3000);
-});
+    return AuthenticationCheck
+}
 ```
+
+## 추후에 할것
+
+auth 부분 핸들링을 고민해봐야겠다....
+

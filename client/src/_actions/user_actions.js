@@ -41,6 +41,16 @@ export function alcolLoginUser(dataToSubmit){
     }
 }
 
+export function alcolAuth(){
+    const request = axios.get(`${USER_SERVER}/alcolAuth`)
+    .then(response => response.data);
+
+    return {
+        type: AUTH_USER,
+        payload: request
+    }
+}
+
 export function auth(){
     const request = axios.get(`${USER_SERVER}/auth`)
     .then(response => response.data);

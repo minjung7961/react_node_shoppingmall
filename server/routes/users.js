@@ -3,6 +3,7 @@ const router = express.Router();
 const { User } = require("../models/User");
 
 const { auth } = require("../middleware/auth");
+const { alcolAuth } = require("../middleware/alcolAuth");
 const { Product } = require('../models/product');
 
 //=================================
@@ -10,6 +11,21 @@ const { Product } = require('../models/product');
 //=================================
 
 router.get("/auth", auth, (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image,
+        cart: req.user.cart,
+        history: req.user.history
+    });
+});
+
+router.get("/alcolAuth", alcolAuth, (req, res) => {
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,

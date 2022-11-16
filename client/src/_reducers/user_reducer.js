@@ -4,6 +4,7 @@ import {
     AUTH_USER,
     LOGOUT_USER,
     ADD_TO_CART,
+    ALCOL_AUTH_USER,
     GET_CART_ITEMS,
     REMOVE_CART_ITEM,
     ALCOL_LOGIN_USER
@@ -19,6 +20,8 @@ export default function(state={},action){
         case ALCOL_LOGIN_USER:
             return { ...state, loginSucces: action.payload }
         case AUTH_USER:
+            return {...state, userData: action.payload }
+        case ALCOL_AUTH_USER:
             return {...state, userData: action.payload }
         case LOGOUT_USER:
             return {...state }
