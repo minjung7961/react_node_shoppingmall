@@ -165,6 +165,29 @@ function AlcolLoginPage(props) {
 export default withRouter(AlcolLoginPage);
 ```
 
+#### user_actions.js
+
+```js
+import axios from 'axios';
+import {ALCOL_LOGIN_USER} from './types';
+import {USER_SERVER} from '../components/Config.js';
+
+export function alcolLoginUser(dataToSubmit){
+    const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
+                .then( .... );
+
+    return {
+        ......
+    }
+}
+```
+
+#### type
+
+```js
+export const ALCOL_LOGIN_USER = 'alcol_login_user';
+```
+
 #### user.js
 
 ```js
@@ -187,12 +210,6 @@ export function alcolLoginUser(dataToSubmit){
         payload: request
     }
 }
-```
-
-#### type
-
-```js
-export const ALCOL_LOGIN_USER = 'alcol_login_user';
 ```
 
 #### user_reducer.js
@@ -232,4 +249,3 @@ dispatch(AlcolLoginPage(dataToSubmit))
     }, 3000);
 });
 ```
-
