@@ -24,7 +24,7 @@ function App() {
       <NavBar />
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
-          <Route exact path="/" component={Auth(LandingPage, true)} />
+          <Route exact path="/" component={alcolAuth(LandingPage, true)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/alcolLogin" component={alcolAuth(AlcolLoginPage,false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />

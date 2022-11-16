@@ -55,7 +55,6 @@ router.post('/products', (req, res) => {
   for(let key in req.body.filters){
     if(req.body.filters[key].length > 0){
 
-      console.log('key : ', key);
       if(key === "price"){
         findArgs[key] = {
           $gte: req.body.filters[key][0], // greater then equal 크거나 같고
@@ -64,7 +63,6 @@ router.post('/products', (req, res) => {
       }else{
         findArgs[key] = req.body.filters[key];
       }
-      console.log('filters[key] : ', findArgs[key])
     }
   }
 
@@ -108,8 +106,6 @@ router.post('/alcolProducts', (req, res) => {
   const searchTerm = req.body.searchTerm
   const alcolCG4 = filter.alcolCG4
   const price = filter.price
-  console.log(filter);
-  console.log(searchTerm);
   getConnection((conn) => {
     (async() => {
       try {
@@ -133,7 +129,6 @@ router.post('/alcolProducts', (req, res) => {
         let whereSql = ''
 
         if(alcolCG4.length){
-          console.log('alcolCG4 필터있다.');
           sql = upperSql;
           whereSql += " AND category4cd IN ( \n"
           alcolCG4.forEach(element => {
@@ -145,14 +140,12 @@ router.post('/alcolProducts', (req, res) => {
         }
 
         if(searchTerm){
-          console.log('상품이름 있다.')
           whereSql += "AND productnm LIKE '%"+searchTerm+"%'";
-          console.log(searchTerm)
         }
 
         if(price.length){
           whereSql += ' AND ( FALSE \n'
-          console.log('가격있다.')
+
           price.forEach(([l,m],i) => {
             whereSql += "   OR regprice BETWEEN "+l+" AND "+m+" \n"
           })
@@ -160,7 +153,6 @@ router.post('/alcolProducts', (req, res) => {
         }
         
         sql = upperSql + whereSql  + lowerSql;
-        console.log(sql);
 
         let results = await exec_sql(conn, sql);
         res.send({
@@ -206,7 +198,6 @@ router.get('/alc_products_by_id', (req, res) => {
       try {
         let sql = getAcolDetails;
         let results = await exec_sql(conn, sql,[productId]);
-        console.log(results)
         res.send({
           success: true,
           data: results

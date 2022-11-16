@@ -6,6 +6,10 @@ https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
 ## auth  조사
 
+*  auth 에서 사용자 정보를 가져옴을 알게됨
+* login 에서는 그냥 id만 가져옴...
+* 이를 이용해 어케 mariadb랑 연동할지 연구...ㅠㅠ
+
 #### App.js
 
 ```js
@@ -303,18 +307,12 @@ const express = require('express');
 const router = express.Router();
 const { alcolAuth } = require("../middleware/alcolAuth");
 
-router.get("/alcolAuth", alcolAuth, (req, res) => {
+router.get("/alcolAuth", (req, res) => {
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
-        email: req.user.email,
-        name: req.user.name,
-        lastname: req.user.lastname,
-        role: req.user.role,
-        image: req.user.image,
-        cart: req.user.cart,
-        history: req.user.history
+        cart: req.user.cart
     });
 });
 ```
@@ -375,7 +373,7 @@ export default function(state={},action){
 }
 ```
 
-#### hoc/auth.js
+#### hoc/alcolAuth.js
 
 ```js
 import React, { useEffect } from 'react';
@@ -428,5 +426,5 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
 ## 추후에 할것
 
-auth 부분 핸들링을 고민해봐야겠다....
+* auth 에서 정보일단 가져오기
 
