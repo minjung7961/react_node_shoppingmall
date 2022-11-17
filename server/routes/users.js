@@ -32,7 +32,7 @@ router.get("/alcolAuth", alcolAuth, (req, res) => {
         isAuth: true,
         cart: req.user.cart,
         alcolId : req.alcolUserId,
-        alcolCart : req.alcolCart ? true : false
+        alcolCart : req.alcolCart ? true : []
     });
 });
 
