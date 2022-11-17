@@ -112,6 +112,8 @@ router.get("/logout", auth, (req, res) => {
 
 router.post("/addToCart", auth, (req, res) => { //
     // 먼저 User Collection 에 해당 유저의 정보를 가져오기
+    console.log('addToCart router : ')
+    console.log('req.alcolCart : ',req.alcolCart);
     User.findOne({_id: req.user._id},
         (err, userInfo) => {
             // 가져온 정보에서 카트에다 넣으려 하는 상품이 이미 들어 있는지 확인
@@ -155,6 +157,16 @@ router.post("/addToCart", auth, (req, res) => { //
             }
             
         })
+
+});
+
+// router.post("/alcolAddToCart", auth, (req, res) => { 
+router.post("/alcolAddToCart", (req, res) => {
+    // alcolcart 에 물건 id 정보와 갯수 증가
+    console.log('alcolAddToCart router : ')
+    console.log('req.alcolCart : ',req.alcolCart);
+        // 이미 있던 물건 이었다면 -> 갯수 증가
+        // 이미 있던 물건이 아니었다면 -> id 와 갯수 0
 
 });
 

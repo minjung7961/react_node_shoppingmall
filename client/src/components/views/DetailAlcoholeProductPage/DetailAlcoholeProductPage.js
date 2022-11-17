@@ -14,6 +14,7 @@ function DetailProductPage(props){
     axios.get(`/api/product/alc_products_by_id?id=${productId}&type=single`)
     .then(response => {
         setProduct(response.data.data[0]);
+        console.log('product : ', response.data.data[0].productid);
     })
     .catch(err => alert(err))
   }, [])

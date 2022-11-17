@@ -5,6 +5,7 @@ import {
     AUTH_USER,
     LOGOUT_USER,
     ADD_TO_CART, 
+    ALCOL_ADD_TO_CART,
     GET_CART_ITEMS,
     REMOVE_CART_ITEM,
     ALCOL_LOGIN_USER
@@ -72,7 +73,7 @@ export function logoutUser(){
 }
 
 export function addToCart(id){
-
+    console.log('addToCart');
     let body = {
         productId : id
     }
@@ -85,6 +86,21 @@ export function addToCart(id){
         payload: request
     }
 }
+
+export function addToAlcolCart(id){
+    console.log('addToAlcolCart');
+    let body = {
+        productId : id
+    }
+    const request = axios.post(`${USER_SERVER}/alcolAddToCart`, body)
+    .then(response => response.data);
+
+    return {
+        type: ALCOL_ADD_TO_CART,
+        payload: request
+    }
+}
+
 
 export function getCartItems(cartItems, userCart){
     const request = axios.get(`/api/product/products_by_id?id=${cartItems}&type=array`)
