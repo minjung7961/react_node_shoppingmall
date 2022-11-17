@@ -25,13 +25,13 @@ function App() {
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
           <Route exact path="/" component={alcolAuth(LandingPage, true)} />
-          <Route exact path="/login" component={Auth(LoginPage, false)} />
+          <Route exact path="/login" component={alcolAuth(LoginPage, false)} />
           <Route exact path="/alcolLogin" component={alcolAuth(AlcolLoginPage,false)} />
-          <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
-          <Route exact path="/product/:productId" component={Auth(DetailProductPage, true)} /> 
-          <Route exact path="/product/alc/:productId" component={Auth(DetailAlcoholeProductPage, true)} /> 
-          <Route exact path="/user/cart" component={Auth(CartPage, true)} />
+          <Route exact path="/register" component={alcolAuth(RegisterPage, false)} />
+          <Route exact path="/product/upload" component={alcolAuth(UploadProductPage, true)} />
+          <Route exact path="/product/:productId" component={alcolAuth(DetailProductPage, true)} /> 
+          <Route exact path="/product/alc/:productId" component={alcolAuth(DetailAlcoholeProductPage, true)} /> 
+          <Route exact path="/user/cart" component={alcolAuth(CartPage, true)} />
         
         </Switch>
       </div>

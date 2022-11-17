@@ -2,9 +2,10 @@ You can watch the tutorial for this app.
 
 https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
-# 로그인구현 
+# 장바구니 구현
 
-## auth  mysql 연동하자
+* redux 에 잘 등록되었는지 확인
+* redux 에 cart 정보 초기화 코드 넣기
 
 #### App.js
 
@@ -97,7 +98,9 @@ router.get("/alcolAuth", (req, res) => {
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
-        cart: req.user.cart
+        cart: req.user.cart,
+        alcolId : req.alcolUserId,
+        alcolCart : req.alcolCart ? true : []
     });
 });
 ```
@@ -116,9 +119,6 @@ let alcolAuth = (req, res, next) => {
         let id = '1636956783';
         let sql = " SELECT certreqid FROM ln_auth_feature WHERE certreqid = ? \n";
         let results = await exec_sql(conn, sql, id);
-        console.log(results);
-        console.log(results.length);
-        console.log(results[0].certreqid);
         req.alcolUserId = results[0].certreqid;
       } catch(err){
       } finally{
@@ -227,7 +227,4 @@ export default function (SpecificComponent, option, adminRoute = null) {
 ```
 
 ## 추후에 할것
-
-* redux 에 잘 등록되었는지 확인하고 
-* 장바구니 mariadb 테이블 만들고 한번 구현해보자
 
