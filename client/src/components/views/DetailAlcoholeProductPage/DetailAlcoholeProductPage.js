@@ -1,20 +1,25 @@
 import axios from 'axios';
 import React, { useEffect,useState } from 'react';
+import {useDispatch, useSelector} from 'react-redux';//
 import ProductImage from './Sections/ProductImage';
 import ProductInfo from './Sections/ProductInfo';
 import {Row, Col} from 'antd'
 
-function DetailProductPage(props){
+function DetailAlcoholeProductPage(props){
 
   const productId = props.match.params.productId
 
   const [Product, setProduct] = useState({});
+
+  let userData = {};
+  useSelector(state => {
+    userData = state.user.userData;
+  })
   
   useEffect(() => {
     axios.get(`/api/product/alc_products_by_id?id=${productId}&type=single`)
     .then(response => {
         setProduct(response.data.data[0]);
-        console.log('product : ', response.data.data[0].productid);
     })
     .catch(err => alert(err))
   }, [])
@@ -30,11 +35,11 @@ function DetailProductPage(props){
           <ProductImage detail={Product}/>
         </Col>
         <Col lg={12} sm={24}>
-          <ProductInfo detail={Product}/>
+          <ProductInfo detail={Product} userData={userData}/>
         </Col>
       </Row>
     </div>
   )
 }
 
-export default DetailProductPage
+export default DetailAlcoholeProductPage

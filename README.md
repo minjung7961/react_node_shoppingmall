@@ -4,14 +4,13 @@ https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
 
 # 장바구니 구현
 
-* table 을 만들고 진행하도록 하자
-* 술 디테일 페이지에서 아직 작동시키면 몽고 디비와 섞인다....
+* mariadb 에서 부터 얻은 id를 장바구니 기능 코드로 값을 넘긴다.
 
-## 카트 코드
-
+## 카트 코드(이전)
 
 
-#### ProductInfo.js
+
+#### ProductInfo.js(이전)
 
 ```react
 import React from 'react'
@@ -39,7 +38,7 @@ function ProductInfo(props){
 export default ProductInfo
 ```
 
-#### user_actions.js
+#### user_actions.js(이전)
 
 ```js
 import axios from 'axios';
@@ -60,13 +59,13 @@ export function addToCart(id){
 }
 ```
 
-#### type
+#### type(이전)
 
 ```js
 export const ADD_TO_CART = 'add_to_cart';
 ```
 
-#### user
+#### user(이전)
 
 ```js
 router.post("/addToCart", auth, (req, res) => { //
@@ -118,7 +117,7 @@ router.post("/addToCart", auth, (req, res) => { //
 });
 ```
 
-#### user_reducer.js
+#### user_reducer.js(이전)
 
 ```js
 import {ADD_TO_CART} from '../_actions/types';
@@ -143,11 +142,11 @@ export default function(state={},action){
 
 
 
-## 알콜 카트 코드
+## 알콜 카트 코드(이전)
 
 
 
-#### ProductInfo.js
+#### ProductInfo.js(이전)
 
 ```react
 import React from 'react'
@@ -175,7 +174,7 @@ function ProductInfo(props){
 export default ProductInfo
 ```
 
-#### user_actions.js
+#### user_actions.js(이전)
 
 ```js
 import axios from 'axios';
@@ -196,13 +195,13 @@ export function addToAlcolCart(id){
 }
 ```
 
-#### type
+#### type(이전)
 
 ```js
 export const ALCOL_ADD_TO_CART = 'alcol_add_to_cart';
 ```
 
-## user
+## user(이전)
 
 ```js
 router.post("/alcolAddToCart", auth, (req, res) => { //
@@ -254,7 +253,7 @@ router.post("/alcolAddToCart", auth, (req, res) => { //
 });
 ```
 
-#### user_reducer.js
+#### user_reducer.js(이전)
 
 ```js
 import {ADD_TO_CART} from '../_actions/types';

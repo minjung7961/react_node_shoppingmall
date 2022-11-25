@@ -34,7 +34,7 @@ function RightMenu(props) {
     return (
       <Menu mode={props.mode}>
         <Menu.Item key="upload">
-          <a href="/product/upload">Upload</a>
+          <a href="/product/upload">배송 조회</a>
         </Menu.Item>
 
         <Menu.Item key="cart" style={{ paddingBottom:5 }}>

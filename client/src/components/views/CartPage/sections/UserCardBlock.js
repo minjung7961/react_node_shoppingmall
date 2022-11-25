@@ -1,5 +1,6 @@
 import React from 'react'
 import "./UserCardBlock.css"
+import {Button} from 'antd'
 function UserCardBlock(props){
 
   const renderCartImage = (images) => {
@@ -16,14 +17,14 @@ function UserCardBlock(props){
           <img style={{ width: '70px' }} alt="product" src={renderCartImage(product.images)} />
         </td>
         <td>
-          {product.quantity} EA
+          {product.quantity} 개
         </td>
         <td>
-          ${product.price}
+          {product.price} 원
         </td>
         <td>
           <button onClick={() => props.removeItem(product._id)}>
-            Remove
+            제거
           </button>
         </td>
       </tr>
@@ -36,14 +37,37 @@ function UserCardBlock(props){
         <table>
           <thead>
             <tr>
-              <th>Product Image</th>
-              <th>Product Quantity</th>
-              <th>Product Price</th>
-              <th>Remove from Cart</th>
+              <th>시간</th>
+              <th>결제자</th>
+              <th>금액</th>
+              <th>물품</th>
+              <th>배송조회</th>
             </tr>
           </thead>
           <tbody>
-            {renderItems()}
+            <tr>
+              <td>2022-11-22 15:15:00</td>
+              <td>김민정</td>
+              <td>12000</td>
+              <td><Button>물품보기</Button></td>
+              <td><Button>배송조회</Button></td>
+            </tr>
+            <tr>
+              <td>2022-11-22 15:15:00</td>
+              <td>김민정</td>
+              <td>12000</td>
+              <td><Button>물품보기</Button></td>
+              <td><Button>배송조회</Button></td>
+            </tr>
+            <tr>
+              <td>2022-11-22 15:15:00</td>
+              <td>김민정</td>
+              <td>12000</td>
+              <td><Button>물품보기</Button></td>
+              <td><Button>배송조회</Button></td>
+            </tr>
+            {/* {renderItems()} */}
+
           </tbody>
         </table>
       </div>

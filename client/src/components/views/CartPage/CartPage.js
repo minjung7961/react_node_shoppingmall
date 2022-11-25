@@ -50,7 +50,7 @@ function CartPage(props){
 
   return(
     <div style={{ width: '85%', margin: '3rem auto'}}>
-      <h1>My Cart</h1>
+      <h1>결제내역조회</h1>
       <div>
         {/* 너무 빠르게 product 값 잡으려 하니 안잡혀서 애러날때는 상위 프로퍼티도 같이 검사해서 넣자. */}
         <UserCardBlock products={props.user.cartDetail} removeItem={remoneFromCart}/>
@@ -59,7 +59,7 @@ function CartPage(props){
       {ShowTotal ? 
         <>
           <div style={{ marginTop: '3rem'}}>
-            <h2>Total Amount : ${Total}</h2>
+            <h2>결제 금액 : {Total} 원</h2>
           </div>
           <button>결제하기</button>
         </>
